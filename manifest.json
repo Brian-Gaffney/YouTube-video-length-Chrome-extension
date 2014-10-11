@@ -1,0 +1,25 @@
+{
+	"manifest_version": 2,
+
+	"name": "YouTube video length",
+	"description": "Shows video length next to YouTube video links",
+	"version": "1.0",
+
+	"permissions": ["https://api.youtube.com/"],
+
+	"browser_action": {
+		"default_title": "Shows video length next to YouTube video links",
+		"default_icon": {
+			"19": "icon.png"
+		}
+	},
+
+	"content_scripts": [
+		{
+			"matches": ["<all_urls>"],
+			"run_at": "document_end",
+			"js": ["video_duration.js"],
+			"css": ["style.css"]
+		}
+	]
+}

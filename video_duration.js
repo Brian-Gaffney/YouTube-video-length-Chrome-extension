@@ -1,4 +1,13 @@
-var youtube_links = document.querySelectorAll('a[href^="http://www.youtube.com/watch?v="], a[href^="https://www.youtube.com/watch?v="], a[href^="https://youtube.com/watch?v="], a[href^="https://youtube.com/watch?v="], a[href^="http://youtu.be"], a[href^="https://youtu.be"]');
+var youtube_link_selector = [
+	'a[href^="http://youtube.com/watch?v="]',
+	'a[href^="http://www.youtube.com/watch?v="]',
+	'a[href^="https://youtube.com/watch?v="]',
+	'a[href^="https://www.youtube.com/watch?v="]',
+	'a[href^="http://youtu.be"]',
+	'a[href^="https://youtu.be"]'
+];
+
+var youtube_links = document.querySelectorAll(youtube_link_selector.join(", "));
 
 var api_key = "AIzaSyDaj-tAbohVgEttLWimqW-gPY-5y5xvSHc";
 
@@ -17,6 +26,8 @@ function initialize() {
 	for(var i = 0, len = youtube_links.length; i < len && i < max_anchors; i++) {
 		var video_url = youtube_links[i].getAttribute('href');
 		var video_id = get_video_id(video_url);
+
+		console.log('video_id', video_id);
 
 		//Dedupe
 		if(videos[video_id]) {
@@ -45,7 +56,7 @@ function call_API(video_id, video_url) {
 
 				video_duration = IS08601_duration_to_seconds(video_duration);
 
-				attach_duration(video_url, video_duration);
+				attach_duration(video_id, video_duration);
 			}
 		}
 	};
@@ -72,13 +83,23 @@ function IS08601_duration_to_seconds(duration) {
 }
 
 
-function attach_duration(video_url, duration) {
+function attach_duration(video_id, duration) {
 	attached_durations++;
-	var anchors = document.querySelectorAll('a[href="' + video_url + '"]');
+
+	var selector = [
+		'a[href^="http://youtube.com/watch?v='+video_id+'"]',
+		'a[href^="http://www.youtube.com/watch?v='+video_id+'"]',
+		'a[href^="https://youtube.com/watch?v='+video_id+'"]',
+		'a[href^="https://www.youtube.com/watch?v='+video_id+'"]',
+		'a[href^="http://youtu.be/'+video_id+'"]',
+		'a[href^="https://youtu.be/'+video_id+'"]'
+	];
+
+	var anchors = document.querySelectorAll(selector.join(", "));
 
 	duration = pretty_print_seconds(duration);
 
-	for (var i = 0, len = anchors.length; i < len && i < 2; i++) {
+	for (var i = 0, len = anchors.length; i < len; i++) {
 
 		var el = anchors[i];
 

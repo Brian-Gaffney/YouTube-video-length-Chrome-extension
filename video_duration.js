@@ -27,8 +27,6 @@ function initialize() {
 		var video_url = youtube_links[i].getAttribute('href');
 		var video_id = get_video_id(video_url);
 
-		console.log('video_id', video_id);
-
 		//Dedupe
 		if(videos[video_id]) {
 			continue;

@@ -7,6 +7,11 @@
 
 	"permissions": ["https://api.youtube.com/"],
 
+	"background": {
+		"scripts": ["background.js"],
+		"persistent": false
+	},
+
 	"browser_action": {
 		"default_title": "Shows video length next to YouTube video links",
 		"default_icon": {

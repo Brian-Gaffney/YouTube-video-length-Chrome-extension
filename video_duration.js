@@ -4,28 +4,37 @@ var api_key = "AIzaSyDaj-tAbohVgEttLWimqW-gPY-5y5xvSHc";
 
 var videos = {};
 
-var max_anchors = 50;
+var max_anchors = 20;
 
-for(var i = 0, len = youtube_links.length; i < len && i < max_anchors; i++) {
-	var video_url = youtube_links[i].getAttribute('href');
-	var video_id = get_video_id(video_url);
+var attached_durations = 0;
 
-	//Dedupe
-	if(videos[video_id]) {
-		continue;
-	}
-	videos[video_id] = {};
-
-	blah(video_id, video_url);
+//YouTube.com already shows video lengths almost everywhere
+if(window.location.hostname !== "www.youtube.com" && window.location.hostname !== "youtube.com") {
+	initialize();
 }
 
-function blah(video_id, video_url) {
+function initialize() {
+	for(var i = 0, len = youtube_links.length; i < len && i < max_anchors; i++) {
+		var video_url = youtube_links[i].getAttribute('href');
+		var video_id = get_video_id(video_url);
+
+		//Dedupe
+		if(videos[video_id]) {
+			continue;
+		}
+		videos[video_id] = {};
+
+		call_API(video_id, video_url);
+	}
+}
+
+
+function call_API(video_id, video_url) {
 	var api_call_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=" + video_id + "&key=" + api_key;
 
 	var xhr = new XMLHttpRequest();
 
 	xhr.open("GET", api_call_url, true);
-	xhr.blah = video_id;
 
 	xhr.onreadystatechange = function() {
 		if(xhr.status === 200 && xhr.readyState === 3) {
@@ -64,6 +73,7 @@ function IS08601_duration_to_seconds(duration) {
 
 
 function attach_duration(video_url, duration) {
+	attached_durations++;
 	var anchors = document.querySelectorAll('a[href="' + video_url + '"]');
 
 	duration = pretty_print_seconds(duration);
@@ -79,6 +89,9 @@ function attach_duration(video_url, duration) {
 			var duration_content = document.createTextNode("[" + duration + "]");
 			duration_element.appendChild(duration_content);
 			el.appendChild(duration_element);
+
+			//Update the plugin icon to show the count of video durations shown
+			chrome.runtime.sendMessage({badge_text: attached_durations});
 		}
 	}
 }

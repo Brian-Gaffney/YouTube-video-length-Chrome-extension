@@ -10,10 +10,6 @@ Shows video length next to YouTube video links
 
 	Check if the video is available in your country
 
-	Icon should show number of links the extension has acted upon
-		See developer.chrome.com/extensions/browserAction
-			chrome.browserAction.setBadgeText
-
 	Different display modes
 		Eg
 			Inline eg [1:23]

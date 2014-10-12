@@ -82,7 +82,6 @@ function IS08601_duration_to_seconds(duration) {
 
 
 function attach_duration(video_id, duration) {
-	attached_durations++;
 
 	var selector = [
 		'a[href^="http://youtube.com/watch?v='+video_id+'"]',
@@ -110,7 +109,7 @@ function attach_duration(video_id, duration) {
 			el.appendChild(duration_element);
 
 			//Update the plugin icon to show the count of video durations shown
-			chrome.runtime.sendMessage({badge_text: attached_durations});
+			chrome.runtime.sendMessage({badge_text: ++attached_durations});
 		}
 	}
 }

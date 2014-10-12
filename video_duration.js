@@ -1,4 +1,4 @@
-var youtube_links = document.querySelectorAll('a[href^="http://www.youtube.com/watch?v="], a[href^="https://www.youtube.com/watch?v="], a[href^="https://youtube.com/watch?v="], a[href^="https://youtube.com/watch?v="]');
+var youtube_links = document.querySelectorAll('a[href^="http://www.youtube.com/watch?v="], a[href^="https://www.youtube.com/watch?v="], a[href^="https://youtube.com/watch?v="], a[href^="https://youtube.com/watch?v="], a[href^="http://youtu.be"], a[href^="https://youtu.be"]');
 
 var api_key = "AIzaSyDaj-tAbohVgEttLWimqW-gPY-5y5xvSHc";
 
@@ -121,8 +121,17 @@ function pretty_print_seconds(seconds) {
 
 
 function get_video_id(url) {
-	var youtube_id_regex = /v=[\w_-]+/g;
-	var res = youtube_id_regex.exec(url)[0];
 
-	return res.slice(2,res.length);
+	var res;
+
+	//Check for youtu.be link shortener
+	if(url.search("http://youtu.be") === 0 || url.search("https://youtu.be") === 0) {
+		res = url.replace("http://youtu.be/", "").replace("https://youtu.be/", "");
+	} else { //Normal youtube.com URL
+		var youtube_id_regex = /v=[\w_-]+/g;
+		res = youtube_id_regex.exec(url)[0];
+		res = res.slice(2,res.length);
+	}
+
+	return res;
 }

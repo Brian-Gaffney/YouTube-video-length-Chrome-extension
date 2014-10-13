@@ -1,13 +1,54 @@
-var youtube_link_selector = [
-	'a[href^="http://youtube.com/watch?v="]',
-	'a[href^="http://www.youtube.com/watch?v="]',
-	'a[href^="https://youtube.com/watch?v="]',
-	'a[href^="https://www.youtube.com/watch?v="]',
-	'a[href^="http://youtu.be"]',
-	'a[href^="https://youtu.be"]'
+var video_links = [
+	{
+		service: 'youtube',
+		selector_find: 'a[href^="http://youtube.com/watch"]',
+		selector_set: 'a[href^="http://youtube.com/watch?v={{video_id}}"]'
+	},
+	{
+		service: 'youtube',
+		selector_find: 'a[href^="http://www.youtube.com/watch"]',
+		selector_set: 'a[href^="http://www.youtube.com/watch?v={{video_id}}"]'
+	},
+	{
+		service: 'youtube',
+		selector_find: 'a[href^="https://youtube.com/watch"]',
+		selector_set: 'a[href^="https://youtube.com/watch?v={{video_id}}"]'
+	},
+	{
+		service: 'youtube',
+		selector_find: 'a[href^="https://www.youtube.com/watch"]',
+		selector_set: 'a[href^="https://www.youtube.com/watch?v={{video_id}}"]'
+	},
+	{
+		service: 'youtu.be',
+		selector_find: 'a[href^="http://youtu.be"]',
+		selector_set: 'a[href^="http://youtu.be/{{video_id}}"]'
+	},
+	{
+		service: 'youtu.be',
+		selector_find: 'a[href^="https://youtu.be"]',
+		selector_set: 'a[href^="https://youtu.be/{{video_id}}"]'
+	},
+	{
+		service: 'm.youtube',
+		selector_find: 'a[href^="http://m.youtube.com/watch"]',
+		selector_set: 'a[href^="http://m.youtube.com/watch?v={{video_id}}"]'
+	},
+	{
+		service: 'm.youtube',
+		selector_find: 'a[href^="https://m.youtube.com/watch"]',
+		selector_set: 'a[href^="https://m.youtube.com/watch?v={{video_id}}"]'
+	}
 ];
 
-var youtube_links = document.querySelectorAll(youtube_link_selector.join(", "));
+
+var selector = video_links.map(function(vl) {
+	return vl.selector_find;
+}).reduce(function(a,b) {
+	return a + ", " + b;
+});
+
+var youtube_links = document.querySelectorAll(selector);
 
 var api_key = "AIzaSyDaj-tAbohVgEttLWimqW-gPY-5y5xvSHc";
 
@@ -36,7 +77,6 @@ function initialize() {
 		call_API(video_id, video_url);
 	}
 }
-
 
 function call_API(video_id, video_url) {
 	var api_call_url = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=" + video_id + "&key=" + api_key;
@@ -80,19 +120,15 @@ function IS08601_duration_to_seconds(duration) {
 	return total_seconds;
 }
 
-
 function attach_duration(video_id, duration) {
 
-	var selector = [
-		'a[href^="http://youtube.com/watch?v='+video_id+'"]',
-		'a[href^="http://www.youtube.com/watch?v='+video_id+'"]',
-		'a[href^="https://youtube.com/watch?v='+video_id+'"]',
-		'a[href^="https://www.youtube.com/watch?v='+video_id+'"]',
-		'a[href^="http://youtu.be/'+video_id+'"]',
-		'a[href^="https://youtu.be/'+video_id+'"]'
-	];
+	var selector = video_links.map(function(vl) {
+		return vl.selector_set.replace("{{video_id}}", video_id);
+	}).reduce(function(a,b) {
+		return a + ", " + b;
+	});
 
-	var anchors = document.querySelectorAll(selector.join(", "));
+	var anchors = document.querySelectorAll(selector);
 
 	duration = pretty_print_seconds(duration);
 

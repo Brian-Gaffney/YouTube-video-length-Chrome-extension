@@ -6,8 +6,6 @@ Shows video length next to YouTube video links
 
 *Todo*
 
-	Support m.youtube.com
-
 	Show more than just duration
 		Rating
 		Videos that have had the sounds muted

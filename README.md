@@ -6,17 +6,14 @@ Shows video length next to YouTube video links
 
 *Todo*
 
-	Show more than just duration
-		Rating
-		Videos that have had the sounds muted
-		Availability
-			Deleted
-			Geo locked
-			Age limit
+	Refactor the XHR code to use promises
 
 	Have a list of sites not to run on
 		youtube.com - Already done
 		Google search results page - Already shows the video length
+
+	Reduce API response sizes with partial requests and the 'fields' param
+		https://developers.google.com/youtube/v3/getting-started#partial
 
 	Videos with an offset
 		Calculate the time from offset to the end of video
@@ -27,6 +24,14 @@ Shows video length next to YouTube video links
 		If the <a> tag contains a string deeply nested then attach near that level
 
 	A proper icon
+
+	Show more than just duration
+		Rating
+		Videos that have had the sounds muted
+		Availability
+			Deleted
+			Geo locked
+			Age limit
 
 	Grunt file
 		SCSS

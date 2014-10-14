@@ -23,7 +23,7 @@
 		{
 			"matches": ["<all_urls>"],
 			"run_at": "document_end",
-			"js": ["video_duration.js"],
+			"js": ["utils.js", "video_duration.js"],
 			"css": ["style.css"]
 		}
 	]

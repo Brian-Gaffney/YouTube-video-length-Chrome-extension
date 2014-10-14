@@ -1,11 +1,18 @@
+
+//Recieve messages from content scripts 
 chrome.extension.onMessage.addListener(function(message, sender) {
-	var tab_id = sender.tab.id;
+	var tabID = sender.tab.id;
 
-	if(message.badge_text) {
-		chrome.browserAction.setBadgeText({
-			text: String(message.badge_text),
-			tabId: tab_id
-		});
+	switch(message.type) {
+		case updateBadge:
+			if(message.badgeText) {
+				chrome.browserAction.setBadgeText({
+					text: String(message.badgeText),
+					tabId: tabID
+				});
+			}
+			break;
+		default:
+			console.log("Unknown message recieved", message);
 	}
-
 });

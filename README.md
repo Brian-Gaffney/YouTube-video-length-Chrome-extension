@@ -6,9 +6,6 @@ Shows video length next to YouTube video links
 
 *Todo*
 
-	Reduce API response sizes with partial requests and the 'fields' param
-		https://developers.google.com/youtube/v3/getting-started#partial
-
 	Videos with an offset
 		Calculate the time from offset to the end of video
 
@@ -20,12 +17,14 @@ Shows video length next to YouTube video links
 	A proper icon
 
 	Show more than just duration
-		Rating
+		Rating - statistics.likeCount
 		Videos that have had the sounds muted
 		Availability
 			Deleted
 			Geo locked
 			Age limit
+
+			contentDetails.licensedContent field?
 
 	Grunt file
 		SCSS

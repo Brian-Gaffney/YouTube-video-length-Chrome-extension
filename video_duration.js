@@ -81,7 +81,11 @@ var extension = {
 
 	getVideoInfo: function(videoID) {
 		var self = this;
-		var apiURL = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=" + videoID + "&key=" + self.apiKey;
+		var apiURL = "https://www.googleapis.com/youtube/v3/videos"
+			+ "?part=contentDetails,statistics"
+			+ "&fields=items/contentDetails/duration,items/statistics/likeCount"
+			+ "&id=" + videoID
+			+ "&key=" + self.apiKey;
 
 		var xhr = new XMLHttpRequest();
 		xhr.open("GET", apiURL, true);

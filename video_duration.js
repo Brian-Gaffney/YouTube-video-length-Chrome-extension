@@ -164,7 +164,15 @@ var extension = {
 	}
 };
 
-//YouTube.com already shows video lengths almost everywhere
-if(window.location.hostname !== "www.youtube.com" && window.location.hostname !== "youtube.com") {
+var ignoreSites = [
+	"^http[s]?:\/\/[www]{0,3}m?\.?youtube\.com",
+	"^http[s]?:\/\/.*google.*q="
+];
+
+var re = new RegExp(ignoreSites.join("|"));
+if(window.location.href.match(re) == null) {
+	console.log("Run on this site");
 	extension.initialize();
+} else {
+	console.log("Dont run on this site");
 }

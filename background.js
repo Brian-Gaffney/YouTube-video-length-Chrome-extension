@@ -1,4 +1,3 @@
-
 //Recieve messages from content scripts 
 chrome.extension.onMessage.addListener(function(message, sender) {
 	var tabID = sender.tab.id;

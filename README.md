@@ -6,10 +6,6 @@ Shows video length next to YouTube video links
 
 *Todo*
 
-	Have a list of sites not to run on
-		youtube.com - Already done
-		Google search results page - Already shows the video length
-
 	Reduce API response sizes with partial requests and the 'fields' param
 		https://developers.google.com/youtube/v3/getting-started#partial
 

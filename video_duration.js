@@ -164,12 +164,12 @@ var extension = {
 	}
 };
 
-var ignoreSites = [
+var siteBlacklist = [
 	"^http[s]?:\/\/[www]{0,3}m?\.?youtube\.com",
 	"^http[s]?:\/\/.*google.*q="
 ];
 
-var re = new RegExp(ignoreSites.join("|"));
+var re = new RegExp(siteBlacklist.join("|"));
 if(window.location.href.match(re) == null) {
 	console.log("Run on this site");
 	extension.initialize();

@@ -6,8 +6,6 @@ Shows video length next to YouTube video links
 
 *Todo*
 
-	Refactor the XHR code to use promises
-
 	Have a list of sites not to run on
 		youtube.com - Already done
 		Google search results page - Already shows the video length

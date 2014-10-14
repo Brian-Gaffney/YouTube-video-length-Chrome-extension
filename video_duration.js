@@ -59,8 +59,6 @@ var extension = {
 
 		youTubeLinks = document.querySelectorAll(self.selector);
 
-
-
 		for(var i = 0, len = youTubeLinks.length; i < len && i < self.maxAnchors; i++) {
 			var videoUrl = youTubeLinks[i].getAttribute('href');
 			var videoID = self.getVideoId(videoUrl);
@@ -71,8 +69,49 @@ var extension = {
 			}
 			self.videos[videoID] = {};
 
-			self.getVideoInfo(videoID);
+			var promise = self.getVideoInfo(videoID);
+
+			promise.then(function(result) {
+				self.showDuration(result.videoID, result.videoDuration);
+			}, function(error) {
+				console.log('promise failed', error);
+			});
 		}
+	},
+
+	getVideoInfo: function(videoID) {
+		var self = this;
+		var apiURL = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=" + videoID + "&key=" + self.apiKey;
+
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", apiURL, true);
+
+		var promise = new Promise(function(resolve, reject) {
+			xhr.onreadystatechange = function() {
+				if(xhr.status === 200) {
+
+					if(xhr.readyState === 3) {
+						var response = JSON.parse(xhr.responseText);
+
+						if(response.items[0]) {
+							var videoDuration = IS08601DurationToSeconds(response.items[0].contentDetails.duration);
+
+							resolve({
+								videoID: videoID,
+								videoDuration: videoDuration
+							});
+						}
+					}
+
+				} else {
+					reject(xhr);
+				}
+			};
+
+			xhr.send();
+		});
+
+		return promise;
 	},
 
 	getVideoId: function(videoUrl) {
@@ -88,31 +127,6 @@ var extension = {
 		}
 
 		return res;
-	},
-
-	getVideoInfo: function(videoID) {
-		var self = this;
-		var apiURL = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=" + videoID + "&key=" + self.apiKey;
-
-		var xhr = new XMLHttpRequest();
-
-		xhr.open("GET", apiURL, true);
-
-		xhr.onreadystatechange = function() {
-			if(xhr.status === 200 && xhr.readyState === 3) {
-				var response = JSON.parse(xhr.responseText);
-
-				if(response.items[0]) {
-					var videoDuration = response.items[0].contentDetails.duration;
-
-					videoDuration = IS08601DurationToSeconds(videoDuration);
-
-					self.showDuration(videoID, videoDuration);
-				}
-			}
-		};
-
-		xhr.send();
 	},
 
 	showDuration: function(videoID, duration) {

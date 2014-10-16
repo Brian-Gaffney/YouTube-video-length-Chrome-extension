@@ -6,9 +6,6 @@ Shows video length next to YouTube video links
 
 *Todo*
 
-	Videos with an offset
-		Calculate the time from offset to the end of video
-
 	Better detection of when and how to attach the duration
 		Attach differently if the link only contains an image
 			Attach like youtube.com, small white text in the bottom right

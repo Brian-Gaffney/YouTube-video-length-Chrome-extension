@@ -133,6 +133,20 @@ var extension = {
 		return res;
 	},
 
+	//Checks for #t=123 in the videoUrl
+	//Returns 123 or 0
+	getVideoOffset: function(videoUrl) {
+		var regex = /#t=([0-9]+)/;
+		var res = videoUrl.match(regex);
+
+		//Check that the result is numeric
+		if(res && ((res[1] - parseFloat(res[1]) + 1) >= 0)) {
+			return res[1];
+		}
+
+		return 0;
+	},
+
 	showDuration: function(videoID, duration) {
 		var self = this;
 
@@ -144,17 +158,16 @@ var extension = {
 
 		var anchors = document.querySelectorAll(selector);
 
-		duration = prettyPrintSeconds(duration);
-
 		for (var i = 0, len = anchors.length; i < len; i++) {
-
 			var el = anchors[i];
+			var offset = self.getVideoOffset(el.href);
+			var prettyDuration = prettyPrintSeconds(duration - offset)
 
 			//Only attach if the anchor contains text
 			if(el.innerText !== "") {
 				var durationElement = document.createElement("span");
 				durationElement.className = "video-duration";
-				var durationContent = document.createTextNode("[" + duration + "]");
+				var durationContent = document.createTextNode("[" + prettyDuration + "]");
 				durationElement.appendChild(durationContent);
 				el.appendChild(durationElement);
 

@@ -160,7 +160,7 @@ var extension = {
 
 				//Update the plugin icon to show the count of video durations shown
 				chrome.runtime.sendMessage({
-					type: 'updateBadge',
+					type: 'updateBadgeText',
 					badgeText: ++self.attachedDurations
 				});
 			}
@@ -174,9 +174,14 @@ var siteBlacklist = [
 ];
 
 var re = new RegExp(siteBlacklist.join("|"));
-if(window.location.href.match(re) == null) {
-	console.log("Run on this site");
+if(window.location.href.match(re) === null) {
+	chrome.runtime.sendMessage({
+		type: 'enableBadge'
+	});
+
 	extension.initialize();
 } else {
-	console.log("Dont run on this site");
+	chrome.runtime.sendMessage({
+		type: 'disableBadge'
+	});
 }

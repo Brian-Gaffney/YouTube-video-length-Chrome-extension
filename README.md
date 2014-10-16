@@ -10,11 +10,14 @@ Shows video length next to YouTube video links
 		Calculate the time from offset to the end of video
 
 	Better detection of when and how to attach the duration
-		Don't attach to links that just contain an image
+		Attach differently if the link only contains an image
+			Attach like youtube.com, small white text in the bottom right
+				Possibly percentage based font size with max and min
 		If the <a> tag contains nothing
 		If the <a> tag contains a string deeply nested then attach near that level
 
-	A proper icon
+	Show on embedded videos
+
 
 	Show more than just duration
 		Rating - statistics.likeCount
@@ -50,3 +53,9 @@ Shows video length next to YouTube video links
 	Support non-youtube sites
 		Vimeo
 		???
+
+	Publish to Chrome extension store thing
+		Think of a name
+		Make an icon
+		Make a few screenshots
+		Put up the example html page somewhere

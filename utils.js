@@ -17,6 +17,11 @@ function IS08601DurationToSeconds(duration) {
 }
 
 function prettyPrintSeconds(seconds) {
+
+	if(seconds <= 0) {
+		return 0;
+	}
+
 	var hours = parseInt( seconds / 3600 ) % 24;
 	var minutes = parseInt( seconds / 60 ) % 60;
 	var seconds = seconds % 60;

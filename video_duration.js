@@ -161,7 +161,11 @@ var extension = {
 		for (var i = 0, len = anchors.length; i < len; i++) {
 			var el = anchors[i];
 			var offset = self.getVideoOffset(el.href);
-			var prettyDuration = prettyPrintSeconds(duration - offset)
+			var prettyDuration = prettyPrintSeconds(duration - offset);
+
+			if(prettyDuration <= 0) {
+				continue;
+			}
 
 			//Only attach if the anchor contains text
 			if(el.innerText !== "") {

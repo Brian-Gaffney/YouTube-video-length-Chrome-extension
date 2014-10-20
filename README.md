@@ -46,6 +46,9 @@ Shows video length next to YouTube video links
 		Let user select display mode
 
 	Deal with dynamically populated pages
+		$(document).bind("DOMSubtreeModified", function() {
+			//Use a setTimeout to debounce
+		});
 
 	Support non-youtube sites
 		Vimeo

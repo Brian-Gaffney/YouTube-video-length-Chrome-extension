@@ -185,12 +185,31 @@ var extension = {
 				continue;
 			}
 
+			//Create the element to show the duration
+			var durationElement = document.createElement("span");
+			durationElement.className = "video-duration";
+			var durationContent = document.createTextNode("[" + prettyDuration + "]");
+			durationElement.appendChild(durationContent);
+
+			if(el.getElementsByTagName('img').length > 0) {
+				var imgs = el.getElementsByTagName('img');
+
+				for (var i = 0, len = imgs.length; i < len; i++) {
+					var left = imgs[i].getBoundingClientRect().left;
+					var top = imgs[i].getBoundingClientRect().top;
+					var height = imgs[i].getBoundingClientRect().height;
+					var width = imgs[i].getBoundingClientRect().width;
+
+					durationElement.className = "video-duration image";
+					durationElement.style.top = top + height - durationElement.getBoundingClientRect().height;
+					durationElement.style.left = left + width - durationElement.getBoundingClientRect().width;
+
+					imgs[i].parentNode.insertBefore(durationElement, imgs[i].nextSibling);
+				}
+			}
+
 			//Only attach if the anchor contains text
 			if(el.innerText !== "") {
-				var durationElement = document.createElement("span");
-				durationElement.className = "video-duration";
-				var durationContent = document.createTextNode("[" + prettyDuration + "]");
-				durationElement.appendChild(durationContent);
 				el.appendChild(durationElement);
 
 				//Update the plugin icon to show the count of video durations shown

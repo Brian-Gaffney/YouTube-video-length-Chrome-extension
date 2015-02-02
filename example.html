@@ -13,13 +13,13 @@
 			}
 
 			#links .left {
-				background-color:red;
+				background-color:lightgray;
 				float:left;
 				margin:10px;
 			}
 
 			#links .right {
-				background-color:gray;
+				background-color:lightgray;
 				float:left;
 				margin:10px;
 			}
@@ -32,12 +32,12 @@
 			}
 		</style>
 		<script>
-			// Dynamically add some YouTube links after a second
+			// Dynamically add some YouTube links after a few seconds
 			setTimeout(function() {
 				var link = "https://www.youtube.com/watch?v=4MEm7-kR6pc";
 
 				console.log("Dynamically add links");
-				var el = document.querySelector("#dynamic-links ul");
+				var el = document.querySelector("#dynamic-links");
 
 				var li = document.createElement('li');
 				var a = document.createElement('a');
@@ -49,7 +49,24 @@
 
 				el.appendChild(li);
 
-			}, 1000);
+			}, 2000);
+
+			setTimeout(function() {
+				var link = "https://www.youtube.com/watch?v=-suvkwNYSQo";
+
+				var el = document.querySelector("#dynamic-links");
+
+				var li = document.createElement('li');
+				var a = document.createElement('a');
+				var linkText = document.createTextNode(link);
+				a.appendChild(linkText);
+				a.href = link;
+
+				li.appendChild(a);
+
+				el.appendChild(li);
+
+			}, 5000);
 		</script>
 	</head>
 	<body>
@@ -153,9 +170,14 @@
 				</ul>
 			</div>
 			<div class="right">
-				<div id="dynamic-links">
+				<div>
 					<ul>
-						<!-- Dynamically populated -->
+						<li>
+							Dynamically populated links
+							<ul id="dynamic-links">
+								<!-- Dynamically populated -->
+							</ul>
+						</li>
 					</ul>
 				</div>
 			</div>

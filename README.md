@@ -10,11 +10,12 @@ Shows video length next to YouTube video links
 		Attach differently if the link only contains an image
 			Attach like youtube.com, small white text in the bottom right
 				Possibly percentage based font size with max and min
+			Might need to do it with an :after on the img
+				Too hard to do relative positioning
 		If the <a> tag contains nothing
 		If the <a> tag contains a string deeply nested then attach near that level
 
 	Show on embedded videos
-
 
 	Show more than just duration
 		Rating - statistics.likeCount

@@ -21,6 +21,26 @@ var extension = {
 			setSelector: 'a[href^="https://www.youtube.com/watch?v={{videoID}}"]'
 		},
 		{
+			service: 'youtube',
+			findSelector: 'a[href^="http://youtube.com/watch"]',
+			setSelector: 'a[href^="http://youtube.com/watch?&v={{videoID}}"]'
+		},
+		{
+			service: 'youtube',
+			findSelector: 'a[href^="http://www.youtube.com/watch"]',
+			setSelector: 'a[href^="http://www.youtube.com/watch?&v={{videoID}}"]'
+		},
+		{
+			service: 'youtube',
+			findSelector: 'a[href^="https://youtube.com/watch"]',
+			setSelector: 'a[href^="https://youtube.com/watch?&v={{videoID}}"]'
+		},
+		{
+			service: 'youtube',
+			findSelector: 'a[href^="https://www.youtube.com/watch"]',
+			setSelector: 'a[href^="https://www.youtube.com/watch?&v={{videoID}}"]'
+		},
+		{
 			service: 'youtu.be',
 			findSelector: 'a[href^="http://youtu.be"]',
 			setSelector: 'a[href^="http://youtu.be/{{videoID}}"]'
@@ -185,12 +205,59 @@ var extension = {
 				continue;
 			}
 
+			//Create the element to show the duration
+			var durationElement = document.createElement("span");
+			durationElement.className = "video-duration";
+			var durationContent = document.createTextNode("[" + prettyDuration + "]");
+			durationElement.appendChild(durationContent);
+
+			//Check if the anchor contains images
+			if(el.getElementsByTagName('img').length > 0) {
+				var imgs = el.getElementsByTagName('img');
+
+				if(imgs.length > 0) {
+					var img = imgs[0];
+
+					var imgStyle = window.getComputedStyle(img);
+					var elStyle = window.getComputedStyle(el);
+
+					if(imgStyle.position === "absolute") {
+						var positionElement = img;
+					} else {
+						var positionElement = el;
+					}
+
+					var left = positionElement.getBoundingClientRect().left;
+					var top = positionElement.getBoundingClientRect().top;
+					var height = positionElement.getBoundingClientRect().height;
+					var width = positionElement.getBoundingClientRect().width;
+
+					durationElement.className = "video-duration image test";
+
+					//Insert the element
+					el.appendChild(durationElement);
+
+					var topPosition = top + height - durationElement.getBoundingClientRect().height;
+					var leftPosition = left + width - durationElement.getBoundingClientRect().width;
+
+					var topPosition = "-18";
+					var leftPosition = "20";
+
+
+					//Set the elements position
+					if(imgStyle.position === "absolute") {
+						durationElement.style.position = "absolute";
+					}
+					durationElement.style.top = topPosition + "px";
+					durationElement.style.left = leftPosition + "px";
+
+					//Make the element visible
+					durationElement.style.opacity = 1;
+				}
+			}
+
 			//Only attach if the anchor contains text
 			if(el.innerText !== "") {
-				var durationElement = document.createElement("span");
-				durationElement.className = "video-duration";
-				var durationContent = document.createTextNode("[" + prettyDuration + "]");
-				durationElement.appendChild(durationContent);
 				el.appendChild(durationElement);
 
 				//Update the plugin icon to show the count of video durations shown

@@ -215,45 +215,43 @@ var extension = {
 			if(el.getElementsByTagName('img').length > 0) {
 				var imgs = el.getElementsByTagName('img');
 
-				if(imgs.length > 0) {
-					var img = imgs[0];
+				var img = imgs[0];
 
-					var imgStyle = window.getComputedStyle(img);
-					var elStyle = window.getComputedStyle(el);
+				var imgStyles = window.getComputedStyle(img);
 
-					if(imgStyle.position === "absolute") {
-						var positionElement = img;
-					} else {
-						var positionElement = el;
-					}
+				if(imgStyles.position === "absolute") {
+					var top = img.offsetTop;
+					var left = img.offsetLeft;
+					var height = img.getBoundingClientRect().height;
+					var width = img.getBoundingClientRect().width;
+				} else {
+					var height = el.getBoundingClientRect().height;
+					var width = el.getBoundingClientRect().width;
+				}
 
-					var left = positionElement.getBoundingClientRect().left;
-					var top = positionElement.getBoundingClientRect().top;
-					var height = positionElement.getBoundingClientRect().height;
-					var width = positionElement.getBoundingClientRect().width;
+				durationElement.className = "video-duration image";
 
-					durationElement.className = "video-duration image test";
+				//Insert the element
+				el.appendChild(durationElement);
 
-					//Insert the element
-					el.appendChild(durationElement);
-
+				//Determine the position for the overlay
+				if(imgStyles.position === "absolute") {
 					var topPosition = top + height - durationElement.getBoundingClientRect().height;
 					var leftPosition = left + width - durationElement.getBoundingClientRect().width;
+				} else {
+					var topPosition = height - durationElement.getBoundingClientRect().height;
+					var leftPosition = width - durationElement.getBoundingClientRect().width;
 
-					var topPosition = "-18";
-					var leftPosition = "20";
-
-
-					//Set the elements position
-					if(imgStyle.position === "absolute") {
-						durationElement.style.position = "absolute";
-					}
-					durationElement.style.top = topPosition + "px";
-					durationElement.style.left = leftPosition + "px";
-
-					//Make the element visible
-					durationElement.style.opacity = 1;
+					el.style.position = "relative";
 				}
+
+				//Set the elements position
+				durationElement.style.position = "absolute";
+				durationElement.style.top = topPosition + "px";
+				durationElement.style.left = leftPosition + "px";
+
+				//Make the element visible
+				durationElement.style.opacity = 1;
 			}
 
 			//Only attach if the anchor contains text

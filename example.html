@@ -2,10 +2,24 @@
 	<head>
 		<title>Big list of YouTube links</title>
 		<style>
-			img {
-				/*position: absolute;
-				top:50px;
-				left:150px;*/
+			.absolute-image {
+				height:220px;
+			}
+
+			.absolute-image img {
+				position: absolute;
+				top:980px;
+				left:80px;
+			}
+
+			.relative-image {
+				height:220px;
+			}
+
+			.relative-image img {
+				position: relative;
+				top:10px;
+				left:10px;
 			}
 
 			span.video-duration.image {
@@ -111,10 +125,24 @@
 					Image links
 					<ul>
 						<li>
-							<span>https://www.youtube.com/watch?v=4MEm7-kR6pc</span>
+							<span>Static position</span>
 							<br>
 							<a href="https://www.youtube.com/watch?v=4MEm7-kR6pc">
 								<img src="example.png" alt="Test video link image">
+							</a>
+						</li>
+						<li class="relative-image">
+							<span>Relative position</span>
+							<br>
+							<a href="https://www.youtube.com/watch?v=4MEm7-kR6pc">
+								<img src="example.png" class="relative" alt="Test video link image">
+							</a>
+						</li>
+						<li class="absolute-image">
+							<span>Absolute position</span>
+							<br>
+							<a href="https://www.youtube.com/watch?v=4MEm7-kR6pc">
+								<img src="example.png" class="absolute" alt="Test video link image">
 							</a>
 						</li>
 					</ul>

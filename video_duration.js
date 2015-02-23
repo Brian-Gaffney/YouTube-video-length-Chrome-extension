@@ -1,24 +1,29 @@
 var extension = {
+	siteBlacklist: [
+		"^https?:\/\/[www]{0,3}m?\.?youtube\.com",
+		"^https?:\/\/.*google.*q="
+	],
+
 	videoLinks: [
 		{
 			service: 'youtube',
-			findSelector: 'a[href^="http://youtube.com/watch"]',
-			setSelector: 'a[href^="http://youtube.com/watch?v={{videoID}}"]'
+			findSelector: 'a[href^="http://youtube.com/watch"]:not([duration-attached])',
+			setSelector: 'a[href^="http://youtube.com/watch?v={{videoID}}"]:not([duration-attached])'
 		},
 		{
 			service: 'youtube',
-			findSelector: 'a[href^="http://www.youtube.com/watch"]',
-			setSelector: 'a[href^="http://www.youtube.com/watch?v={{videoID}}"]'
+			findSelector: 'a[href^="http://www.youtube.com/watch"]:not([duration-attached])',
+			setSelector: 'a[href^="http://www.youtube.com/watch?v={{videoID}}"]:not([duration-attached])'
 		},
 		{
 			service: 'youtube',
-			findSelector: 'a[href^="https://youtube.com/watch"]',
-			setSelector: 'a[href^="https://youtube.com/watch?v={{videoID}}"]'
+			findSelector: 'a[href^="https://youtube.com/watch"]:not([duration-attached])',
+			setSelector: 'a[href^="https://youtube.com/watch?v={{videoID}}"]:not([duration-attached])'
 		},
 		{
 			service: 'youtube',
-			findSelector: 'a[href^="https://www.youtube.com/watch"]',
-			setSelector: 'a[href^="https://www.youtube.com/watch?v={{videoID}}"]'
+			findSelector: 'a[href^="https://www.youtube.com/watch"]:not([duration-attached])',
+			setSelector: 'a[href^="https://www.youtube.com/watch?v={{videoID}}"]:not([duration-attached])'
 		},
 		{
 			service: 'youtube',
@@ -42,23 +47,23 @@ var extension = {
 		},
 		{
 			service: 'youtu.be',
-			findSelector: 'a[href^="http://youtu.be"]',
-			setSelector: 'a[href^="http://youtu.be/{{videoID}}"]'
+			findSelector: 'a[href^="http://youtu.be"]:not([duration-attached])',
+			setSelector: 'a[href^="http://youtu.be/{{videoID}}"]:not([duration-attached])'
 		},
 		{
 			service: 'youtu.be',
-			findSelector: 'a[href^="https://youtu.be"]',
-			setSelector: 'a[href^="https://youtu.be/{{videoID}}"]'
+			findSelector: 'a[href^="https://youtu.be"]:not([duration-attached])',
+			setSelector: 'a[href^="https://youtu.be/{{videoID}}"]:not([duration-attached])'
 		},
 		{
 			service: 'm.youtube',
-			findSelector: 'a[href^="http://m.youtube.com/watch"]',
-			setSelector: 'a[href^="http://m.youtube.com/watch?v={{videoID}}"]'
+			findSelector: 'a[href^="http://m.youtube.com/watch"]:not([duration-attached])',
+			setSelector: 'a[href^="http://m.youtube.com/watch?v={{videoID}}"]:not([duration-attached])'
 		},
 		{
 			service: 'm.youtube',
-			findSelector: 'a[href^="https://m.youtube.com/watch"]',
-			setSelector: 'a[href^="https://m.youtube.com/watch?v={{videoID}}"]'
+			findSelector: 'a[href^="https://m.youtube.com/watch"]:not([duration-attached])',
+			setSelector: 'a[href^="https://m.youtube.com/watch?v={{videoID}}"]:not([duration-attached])'
 		}
 	],
 
@@ -66,30 +71,42 @@ var extension = {
 	selector: {},
 	videos: {},
 	maxAnchors: 50,
+	videoData: {},
 	attachedDurations: 0,
 
 	initialize: function() {
 		var self = this;
 
-		self.selector = self.videoLinks.map(function(vl) {
+		//Bind to DOM changes so that we can attach durations to dynamic content
+		document.addEventListener("DOMSubtreeModified", function(ev) {
+
+			//Prevents us listening to our own events
+			if(!ev.target.querySelector(':scope > span.video-duration') && !ev.target.hasAttribute('duration-attached')) {
+				self.findYouTubeLinks(ev.target);
+			}
+		});
+
+		this.selector = this.videoLinks.map(function(vl) {
 			return vl.findSelector;
 		}).reduce(function(a,b) {
 			return a + ", " + b;
 		});
 
-		youTubeLinks = document.querySelectorAll(self.selector);
+		this.findYouTubeLinks(document);
+	},
 
-		for(var i = 0, len = youTubeLinks.length; i < len && i < self.maxAnchors; i++) {
+	findYouTubeLinks: function(element) {
+		var self = this;
+
+		youTubeLinks = element.querySelectorAll(this.selector);
+
+		for(var i = 0, len = youTubeLinks.length; i < len && i < this.maxAnchors; i++) {
 			var videoUrl = youTubeLinks[i].getAttribute('href');
-			var videoID = self.getVideoId(videoUrl);
+			var videoID = this.getVideoId(videoUrl);
 
-			//Dedupe
-			if(self.videos[videoID]) {
-				continue;
-			}
-			self.videos[videoID] = {};
+			this.videos[videoID] = {};
 
-			var promise = self.getVideoInfo(videoID);
+			var promise = this.getVideoInfo(videoID);
 
 			promise.then(function(result) {
 				self.showDuration(result.videoID, result.videoDuration);
@@ -101,6 +118,16 @@ var extension = {
 
 	getVideoInfo: function(videoID) {
 		var self = this;
+
+		//Prevent multiple requests for the same video data
+		if(this.videoData[videoID]) {
+			var promise = new Promise(function(resolve, reject) {
+				resolve(self.videoData[videoID]);
+			});
+
+			return promise;
+		}
+
 		var apiUrl = "https://www.googleapis.com/youtube/v3/videos"
 			+ "?part=contentDetails,statistics"
 			+ "&fields=items/contentDetails/duration,items/statistics/likeCount"
@@ -120,10 +147,13 @@ var extension = {
 						if(response.items[0]) {
 							var videoDuration = IS08601DurationToSeconds(response.items[0].contentDetails.duration);
 
-							resolve({
+							//Save the data for later to prevent multiple requests
+							self.videoData[videoID] = {
 								videoID: videoID,
 								videoDuration: videoDuration
-							});
+							};
+
+							resolve(self.videoData[videoID]);
 						}
 					}
 
@@ -201,6 +231,8 @@ var extension = {
 			var offset = self.getVideoOffset(el.href);
 			var prettyDuration = prettyPrintSeconds(duration - offset);
 
+			el.setAttribute("duration-attached", true);
+
 			if(prettyDuration <= 0) {
 				continue;
 			}
@@ -268,12 +300,8 @@ var extension = {
 	}
 };
 
-var siteBlacklist = [
-	"^https?:\/\/[www]{0,3}m?\.?youtube\.com",
-	"^https?:\/\/.*google.*q="
-];
-
-var re = new RegExp(siteBlacklist.join("|"));
+//Don't run on blacklisted sites
+var re = new RegExp(extension.siteBlacklist.join("|"));
 if(window.location.href.match(re) === null) {
 	chrome.runtime.sendMessage({
 		type: 'enableBadge'

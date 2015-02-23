@@ -22,6 +22,22 @@
 				left:10px;
 			}
 
+			#links > div {
+				width:35%;
+			}
+
+			#links .left {
+				background-color:lightgray;
+				float:left;
+				margin:10px;
+			}
+
+			#links .right {
+				background-color:lightgray;
+				float:left;
+				margin:10px;
+			}
+
 			span.video-duration.image {
 				position: absolute;
 				text-align: right;
@@ -29,125 +45,176 @@
 				background: rgba(100,100,100,0.9);
 			}
 		</style>
+		<script>
+			// Dynamically add some YouTube links after a few seconds
+			setTimeout(function() {
+				var link = "https://www.youtube.com/watch?v=4MEm7-kR6pc";
+
+				console.log("Dynamically add links");
+				var el = document.querySelector("#dynamic-links");
+
+				var li = document.createElement('li');
+				var a = document.createElement('a');
+				var linkText = document.createTextNode(link);
+				a.appendChild(linkText);
+				a.href = link;
+
+				li.appendChild(a);
+
+				el.appendChild(li);
+
+			}, 2000);
+
+			setTimeout(function() {
+				var link = "https://www.youtube.com/watch?v=-suvkwNYSQo";
+
+				var el = document.querySelector("#dynamic-links");
+
+				var li = document.createElement('li');
+				var a = document.createElement('a');
+				var linkText = document.createTextNode(link);
+				a.appendChild(linkText);
+				a.href = link;
+
+				li.appendChild(a);
+
+				el.appendChild(li);
+
+			}, 4000);
+		</script>
 	</head>
 	<body>
 		<h1>
 			Big list of YouTube links
 		</h1>
 
-		<div>
-			<ul>
-				<li>
-					Youtube.com
+		<div id="links">
+			<div class="left">
+						<ul>
+							<li>
+								Youtube.com
+								<ul>
+									<li>
+										<a href="https://www.youtube.com/watch?v=4MEm7-kR6pc">https://www.youtube.com/watch?v=4MEm7-kR6pc</a>
+									</li>
+									<li>
+										<a href="https://youtube.com/watch?v=4MEm7-kR6pc">https://youtube.com/watch?v=4MEm7-kR6pc</a>
+									</li>
+									<li>
+										<a href="http://www.youtube.com/watch?v=4MEm7-kR6pc">http://www.youtube.com/watch?v=4MEm7-kR6pc</a>
+									</li>
+									<li>
+										<a href="http://youtube.com/watch?v=4MEm7-kR6pc">http://youtube.com/watch?v=4MEm7-kR6pc</a>
+									</li>
+									<li>
+										<a href="https://www.youtube.com/watch?v=8WL57ZbZFJw">https://www.youtube.com/watch?v=8WL57ZbZFJw</a>
+									</li>
+									<li>
+										<a href="https://www.youtube.com/watch?&v=N7POuF8mWCc">https://www.youtube.com/watch?&v=N7POuF8mWCc</a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								Mobile YouTube
+								<ul>
+									<li>
+										<a href="http://m.youtube.com/watch?v=oX2LjcdWkQI">http://m.youtube.com/watch?v=oX2LjcdWkQI</a>
+									</li>
+									<li>
+										<a href="https://m.youtube.com/watch?v=oX2LjcdWkQI">https://m.youtube.com/watch?v=oX2LjcdWkQI</a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								Yout.be
+								<ul>
+									<li>
+										<a href="http://youtu.be/4MEm7-kR6pc">http://youtu.be/4MEm7-kR6pc</a>
+									</li>
+									<li>
+										<a href="https://youtu.be/4MEm7-kR6pc">https://youtu.be/4MEm7-kR6pc</a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								Video with offset (begins X mins/seconds into video)
+								<ul>
+			 						<li>
+										<a href="https://www.youtube.com/watch?v=4MEm7-kR6pc#t=30">https://www.youtube.com/watch?v=4MEm7-kR6pc#t=30</a>
+									</li>
+									<li>
+										<a href="http://youtu.be/lL0WayC7jW0#t=1m59s">http://youtu.be/lL0WayC7jW0#t=1m59s</a>
+									</li>
+			 						<li>
+										<a href="https://www.youtube.com/watch?v=4MEm7-kR6pc?t=15">https://www.youtube.com/watch?v=4MEm7-kR6pc?t=15</a>
+									</li>
+									<li>
+										<a href="http://youtu.be/lL0WayC7jW0?t=3m10s">http://youtu.be/lL0WayC7jW0?t=3m10s</a>
+									</li>
+									<li>
+										<a href="http://youtu.be/lL0WayC7jW0?t=25s">http://youtu.be/lL0WayC7jW0?t=25s</a>
+									</li>
+									<li>
+										<a href="http://youtu.be/lL0WayC7jW0?t=1m">http://youtu.be/lL0WayC7jW0?t=1m</a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								Content warning (over 18 thing)
+								<ul>
+									<li>
+										<a href="https://www.youtube.com/watch?v=ZAtzN_ScKXY">https://www.youtube.com/watch?v=ZAtzN_ScKXY</a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								Content unavailable
+								<ul>
+									<li>
+										<a href="http://www.youtube.com/watch?v=TLoixnECec0">http://www.youtube.com/watch?v=TLoixnECec0</a>
+									</li>
+								</ul>
+							</li>
+							<li>
+								Image links
+								<ul>
+									<li>
+										<span>Static position</span>
+										<br>
+										<a href="https://www.youtube.com/watch?v=4MEm7-kR6pc">
+											<img src="example.png" alt="Test video link image">
+										</a>
+									</li>
+									<li class="relative-image">
+										<span>Relative position</span>
+										<br>
+										<a href="https://www.youtube.com/watch?v=4MEm7-kR6pc">
+											<img src="example.png" class="relative" alt="Test video link image">
+										</a>
+									</li>
+									<li class="absolute-image">
+										<span>Absolute position</span>
+										<br>
+										<a href="https://www.youtube.com/watch?v=4MEm7-kR6pc">
+											<img src="example.png" class="absolute" alt="Test video link image">
+										</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+			</div>
+			<div class="right">
+				<div>
 					<ul>
 						<li>
-							<a href="https://www.youtube.com/watch?v=4MEm7-kR6pc">https://www.youtube.com/watch?v=4MEm7-kR6pc</a>
-						</li>
-						<li>
-							<a href="https://youtube.com/watch?v=4MEm7-kR6pc">https://youtube.com/watch?v=4MEm7-kR6pc</a>
-						</li>
-						<li>
-							<a href="http://www.youtube.com/watch?v=4MEm7-kR6pc">http://www.youtube.com/watch?v=4MEm7-kR6pc</a>
-						</li>
-						<li>
-							<a href="http://youtube.com/watch?v=4MEm7-kR6pc">http://youtube.com/watch?v=4MEm7-kR6pc</a>
-						</li>
-						<li>
-							<a href="https://www.youtube.com/watch?v=8WL57ZbZFJw">https://www.youtube.com/watch?v=8WL57ZbZFJw</a>
-						</li>
-						<li>
-							<a href="https://www.youtube.com/watch?&v=N7POuF8mWCc">https://www.youtube.com/watch?&v=N7POuF8mWCc</a>
+							Dynamically populated links
+							<ul id="dynamic-links">
+								<!-- Dynamically populated -->
+							</ul>
 						</li>
 					</ul>
-				</li>
-				<li>
-					Mobile YouTube
-					<ul>
-						<li>
-							<a href="http://m.youtube.com/watch?v=oX2LjcdWkQI">http://m.youtube.com/watch?v=oX2LjcdWkQI</a>
-						</li>
-						<li>
-							<a href="https://m.youtube.com/watch?v=oX2LjcdWkQI">https://m.youtube.com/watch?v=oX2LjcdWkQI</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					Yout.be
-					<ul>
-						<li>
-							<a href="http://youtu.be/4MEm7-kR6pc">http://youtu.be/4MEm7-kR6pc</a>
-						</li>
-						<li>
-							<a href="https://youtu.be/4MEm7-kR6pc">https://youtu.be/4MEm7-kR6pc</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					Video with offset (begins X mins/seconds into video)
-					<ul>
- 						<li>
-							<a href="https://www.youtube.com/watch?v=4MEm7-kR6pc#t=30">https://www.youtube.com/watch?v=4MEm7-kR6pc#t=30</a>
-						</li>
-						<li>
-							<a href="http://youtu.be/lL0WayC7jW0#t=1m59s">http://youtu.be/lL0WayC7jW0#t=1m59s</a>
-						</li>
- 						<li>
-							<a href="https://www.youtube.com/watch?v=4MEm7-kR6pc?t=15">https://www.youtube.com/watch?v=4MEm7-kR6pc?t=15</a>
-						</li>
-						<li>
-							<a href="http://youtu.be/lL0WayC7jW0?t=3m10s">http://youtu.be/lL0WayC7jW0?t=3m10s</a>
-						</li>
-						<li>
-							<a href="http://youtu.be/lL0WayC7jW0?t=25s">http://youtu.be/lL0WayC7jW0?t=25s</a>
-						</li>
-						<li>
-							<a href="http://youtu.be/lL0WayC7jW0?t=1m">http://youtu.be/lL0WayC7jW0?t=1m</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					Content warning (over 18 thing)
-					<ul>
-						<li>
-							<a href="https://www.youtube.com/watch?v=ZAtzN_ScKXY">https://www.youtube.com/watch?v=ZAtzN_ScKXY</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					Content unavailable
-					<ul>
-						<li>
-							<a href="http://www.youtube.com/watch?v=TLoixnECec0">http://www.youtube.com/watch?v=TLoixnECec0</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					Image links
-					<ul>
-						<li>
-							<span>Static position</span>
-							<br>
-							<a href="https://www.youtube.com/watch?v=4MEm7-kR6pc">
-								<img src="example.png" alt="Test video link image">
-							</a>
-						</li>
-						<li class="relative-image">
-							<span>Relative position</span>
-							<br>
-							<a href="https://www.youtube.com/watch?v=4MEm7-kR6pc">
-								<img src="example.png" class="relative" alt="Test video link image">
-							</a>
-						</li>
-						<li class="absolute-image">
-							<span>Absolute position</span>
-							<br>
-							<a href="https://www.youtube.com/watch?v=4MEm7-kR6pc">
-								<img src="example.png" class="absolute" alt="Test video link image">
-							</a>
-						</li>
-					</ul>
-				</li>
-			</ul>
+				</div>
+			</div>
 		</div>
 	</body>
 </html>

@@ -5,6 +5,8 @@ Shows video length next to YouTube video links
 
 
 *Todo*
+	Improve getVideoID()
+		Strip t=X stuff
 
 	Better detection of when and how to attach the duration
 		Attach differently if the link only contains an image

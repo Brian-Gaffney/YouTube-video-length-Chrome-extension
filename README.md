@@ -5,17 +5,14 @@ Shows video length next to YouTube video links
 
 
 *Todo*
+	Publish to Chrome extension store thing
+		Think of a name
+		Make an icon
+		Make a few screenshots
+		Put up the example html page somewhere
+
 	Improve getVideoID()
 		Strip t=X stuff
-
-	Better detection of when and how to attach the duration
-		Attach differently if the link only contains an image
-			Attach like youtube.com, small white text in the bottom right
-				Possibly percentage based font size with max and min
-			Might need to do it with an :after on the img
-				Too hard to do relative positioning
-		If the <a> tag contains nothing
-		If the <a> tag contains a string deeply nested then attach near that level
 
 	Show on embedded videos
 
@@ -29,7 +26,7 @@ Shows video length next to YouTube video links
 
 			contentDetails.licensedContent field?
 
-	Grunt file
+	Grunt/Gulb/Belch/Earwax
 		SCSS
 		Create CRX
 			Auto add commit ID to CRX somewhere so that users can see which commit the CRX was built from
@@ -48,17 +45,6 @@ Shows video length next to YouTube video links
 
 		Let user select display mode
 
-	Deal with dynamically populated pages
-		$(document).bind("DOMSubtreeModified", function() {
-			//Use a setTimeout to debounce
-		});
-
 	Support non-youtube sites
 		Vimeo
 		???
-
-	Publish to Chrome extension store thing
-		Think of a name
-		Make an icon
-		Make a few screenshots
-		Put up the example html page somewhere

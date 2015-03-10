@@ -5,8 +5,12 @@ span.video-duration {
 span.video-duration.image {
 	color: black;
 	font-size:12px;
-	background:gray;
-	position: relative;
+	text-align: right;
+	background:rgba(0, 0, 0, 0.42);
+	color:rgb(230, 227, 227);
+	height:15px;
+	/*position: relative;*/
+	position: absolute;
 
 	opacity: 0;
 }

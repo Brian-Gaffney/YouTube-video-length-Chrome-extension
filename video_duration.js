@@ -80,8 +80,13 @@ var extension = {
 		//Bind to DOM changes so that we can attach durations to dynamic content
 		document.addEventListener("DOMSubtreeModified", function(ev) {
 
-			//Prevents us listening to our own events
-			if(!ev.target.querySelector(':scope > span.video-duration') && !ev.target.hasAttribute('duration-attached')) {
+			if(
+				//Only listen to valid events
+				ev.target.nodeName !== "#text" &&
+				//Don't listening to our own events
+				!ev.target.querySelector(':scope > span.video-duration') &&
+				!ev.target.hasAttribute('duration-attached')
+			) {
 				self.findYouTubeLinks(ev.target);
 			}
 		});

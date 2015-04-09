@@ -5,11 +5,10 @@ Shows video length next to YouTube video links
 
 
 *Todo*
-	Publish to Chrome extension store thing
-		Think of a name
-		Make an icon
-		Make a few screenshots
-		Put up the example html page somewhere
+	Make better icons
+	Make a few screenshots
+	Put up the example html page somewhere
+		Github pages?
 
 	Improve getVideoID()
 		Strip t=X stuff
@@ -47,4 +46,4 @@ Shows video length next to YouTube video links
 
 	Support non-youtube sites
 		Vimeo
-		???
+		Vine

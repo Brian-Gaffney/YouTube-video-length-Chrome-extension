@@ -73,6 +73,7 @@ var extension = {
 	maxAnchors: 50,
 	videoData: {},
 	attachedDurations: 0,
+	elementIdSuffix: 1,
 
 	initialize: function() {
 		var self = this;
@@ -234,11 +235,6 @@ var extension = {
 		for (var i = 0, len = anchors.length; i < len; i++) {
 			var el = anchors[i];
 
-			//Don't attach to elements inside a contenteditable region
-			if(nearestParentAttributeValue(el, "contenteditable")) {
-				continue;
-			}
-
 			var offset = self.getVideoOffset(el.href);
 			var prettyDuration = prettyPrintSeconds(duration - offset);
 
@@ -248,10 +244,27 @@ var extension = {
 				continue;
 			}
 
+			var durationText = "[" + prettyDuration + "]";
+
+			//Attach to elements inside a contenteditable region using :after pseudo element
+			//If we attach normally the contenteditable changes may end up saved
+			if(nearestParentAttributeValue(el, "contenteditable")) {
+
+				var newClass = "duration-element-" + extension.elementIdSuffix++;
+				el.className = el.className + " " + newClass;
+
+				var afterSelector = '.' + newClass + ':after';
+
+				document.styleSheets[0].addRule(afterSelector, 'content: "' + durationText + '"');
+				document.styleSheets[0].addRule(afterSelector, 'font-weight: bold');
+
+				continue;
+			}
+
 			//Create the element to show the duration
 			var durationElement = document.createElement("span");
 			durationElement.className = "video-duration";
-			var durationContent = document.createTextNode("[" + prettyDuration + "]");
+			var durationContent = document.createTextNode(durationText);
 			durationElement.appendChild(durationContent);
 
 			//Check if the anchor contains images

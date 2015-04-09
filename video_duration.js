@@ -233,6 +233,12 @@ var extension = {
 
 		for (var i = 0, len = anchors.length; i < len; i++) {
 			var el = anchors[i];
+
+			//Don't attach to elements inside a contenteditable region
+			if(nearestParentAttributeValue(el, "contenteditable")) {
+				continue;
+			}
+
 			var offset = self.getVideoOffset(el.href);
 			var prettyDuration = prettyPrintSeconds(duration - offset);
 

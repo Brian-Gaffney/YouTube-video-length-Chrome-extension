@@ -43,3 +43,15 @@ function prettyPrintSeconds(seconds) {
 
 	return result;
 }
+
+function nearestParentAttributeValue(node, attribute) {
+	if(typeof node.parentNode === 'undefined' || typeof node.parentNode.hasAttribute === 'undefined') {
+		return false;
+	}
+
+	if(node.parentNode.hasAttribute(attribute)) {
+		return node.parentNode.getAttribute(attribute);
+	}
+
+	return nearestParentAttributeValue(node.parentNode);
+}

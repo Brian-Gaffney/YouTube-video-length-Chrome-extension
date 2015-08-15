@@ -1,4 +1,4 @@
-function IS08601DurationToSeconds(duration) {
+function ISO8601DurationToSeconds(duration) {
 	var seconds = duration.match(/(\d*)S/);
 	seconds = parseInt(seconds ? (parseInt(seconds[1]) ? seconds[1] : 0) : 0);
 

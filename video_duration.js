@@ -6,83 +6,51 @@ var extension = {
 
 	videoLinks: [
 		{
-			service: 'youtube',
-			findSelector: 'a[href^="http://www.youtube.com/v/"]',
 			setSelector: 'a[href^="http://www.youtube.com/v/{{videoID}}"]'
 		},
 		{
-			service: 'youtube',
-			findSelector: 'a[href^="https://www.youtube.com/v/"]',
 			setSelector: 'a[href^="https://www.youtube.com/v/{{videoID}}"]'
 		},
 		{
-			service: 'youtube',
-			findSelector: 'a[href^="http://youtube.com/v/"]',
 			setSelector: 'a[href^="http://youtube.com/v/{{videoID}}"]'
 		},
 		{
-			service: 'youtube',
-			findSelector: 'a[href^="https://youtube.com/v/"]',
 			setSelector: 'a[href^="https://youtube.com/v/{{videoID}}"]'
 		},
 		{
-			service: 'youtube',
-			findSelector: 'a[href^="http://youtube.com/watch"]',
 			setSelector: 'a[href^="http://youtube.com/watch?v={{videoID}}"]'
 		},
 		{
-			service: 'youtube',
-			findSelector: 'a[href^="http://www.youtube.com/watch"]',
 			setSelector: 'a[href^="http://www.youtube.com/watch?v={{videoID}}"]'
 		},
 		{
-			service: 'youtube',
-			findSelector: 'a[href^="https://youtube.com/watch"]',
 			setSelector: 'a[href^="https://youtube.com/watch?v={{videoID}}"]'
 		},
 		{
-			service: 'youtube',
-			findSelector: 'a[href^="https://www.youtube.com/watch"]',
 			setSelector: 'a[href^="https://www.youtube.com/watch?v={{videoID}}"]'
 		},
 		{
-			service: 'youtube',
-			findSelector: 'a[href^="http://youtube.com/watch"]',
 			setSelector: 'a[href^="http://youtube.com/watch?&v={{videoID}}"]'
 		},
 		{
-			service: 'youtube',
-			findSelector: 'a[href^="http://www.youtube.com/watch"]',
 			setSelector: 'a[href^="http://www.youtube.com/watch?&v={{videoID}}"]'
 		},
 		{
-			service: 'youtube',
-			findSelector: 'a[href^="https://youtube.com/watch"]',
 			setSelector: 'a[href^="https://youtube.com/watch?&v={{videoID}}"]'
 		},
 		{
-			service: 'youtube',
-			findSelector: 'a[href^="https://www.youtube.com/watch"]',
 			setSelector: 'a[href^="https://www.youtube.com/watch?&v={{videoID}}"]'
 		},
 		{
-			service: 'youtu.be',
-			findSelector: 'a[href^="http://youtu.be"]',
 			setSelector: 'a[href^="http://youtu.be/{{videoID}}"]'
 		},
 		{
-			service: 'youtu.be',
-			findSelector: 'a[href^="https://youtu.be"]',
 			setSelector: 'a[href^="https://youtu.be/{{videoID}}"]'
 		},
 		{
-			service: 'm.youtube',
-			findSelector: 'a[href^="http://m.youtube.com/watch"]',
 			setSelector: 'a[href^="http://m.youtube.com/watch?v={{videoID}}"]'
 		},
 		{
-			service: 'm.youtube',
-			findSelector: 'a[href^="https://m.youtube.com/watch"]',
 			setSelector: 'a[href^="https://m.youtube.com/watch?v={{videoID}}"]'
 		}
 	],
@@ -97,6 +65,11 @@ var extension = {
 
 	initialize: function() {
 		var self = this;
+
+		this.videoLinks = this.videoLinks.map(function(vl) {
+			vl.findSelector = vl.setSelector.replace('{{videoID}}', '');
+			return vl;
+		});
 
 		//Bind to DOM changes so that we can attach durations to dynamic content
 		document.addEventListener("DOMSubtreeModified", function(ev) {
@@ -134,8 +107,8 @@ var extension = {
 
 			var promise = this.getVideoInfo(videoID);
 
-			promise.then(function(result) {
-				self.showDuration(result.videoID, result.videoDuration);
+			promise.then(function(data) {
+				self.showDuration(data);
 			}, function(error) {
 				console.log('promise failed', error);
 			});
@@ -188,17 +161,24 @@ var extension = {
 					if(xhr.readyState === 3) {
 						var response = JSON.parse(xhr.responseText);
 
+						// debugger;
+
+						var data = {
+							videoID: videoID
+						};
+
 						if(response.items[0]) {
-							var videoDuration = IS08601DurationToSeconds(response.items[0].contentDetails.duration);
+							var videoDuration = ISO8601DurationToSeconds(response.items[0].contentDetails.duration);
+
+							data.videoDuration = videoDuration;
 
 							//Save the data for later to prevent multiple requests
-							self.videoData[videoID] = {
-								videoID: videoID,
-								videoDuration: videoDuration
-							};
 
-							resolve(self.videoData[videoID]);
+							resolve(data);
 						}
+
+						self.videoData[videoID] = data;
+						resolve(data);
 					}
 
 				} else {
@@ -226,6 +206,9 @@ var extension = {
 			res = regex.exec(videoUrl)[0];
 			res = res.slice(2,res.length);
 		}
+
+		//Remove any ? query params
+		var res = res.split('?')[0];
 
 		return res;
 	},
@@ -259,12 +242,12 @@ var extension = {
 		return 0;
 	},
 
-	showDuration: function(videoID, duration) {
+	showDuration: function(data) {
 		var self = this;
 
 		var selector = self.videoLinks.map(function(vl) {
 			var str = vl.setSelector + ':not([duration-attached])';
-			return str.replace("{{videoID}}", videoID);
+			return str.replace("{{videoID}}", data.videoID);
 		}).reduce(function(a,b) {
 			return a + ", " + b;
 		});
@@ -274,16 +257,24 @@ var extension = {
 		for (var i = 0, len = anchors.length; i < len; i++) {
 			var el = anchors[i];
 
-			var offset = self.getVideoOffset(el.href);
-			var prettyDuration = prettyPrintSeconds(duration - offset);
+			var durationText;
+
+			if(data.videoDuration) {
+				var offset = self.getVideoOffset(el.href);
+				var prettyDuration = prettyPrintSeconds(data.videoDuration - offset);
+
+				if(prettyDuration <= 0) {
+					continue;
+				}
+
+				durationText = '[' + prettyDuration + ']';
+			} else {
+				durationText = '[❌]';
+			}
 
 			el.setAttribute("duration-attached", true);
 
-			if(prettyDuration <= 0) {
-				continue;
-			}
 
-			var durationText = "[" + prettyDuration + "]";
 
 			//Attach to elements inside a contenteditable region using :after pseudo element
 			//If we attach normally the contenteditable changes may end up saved

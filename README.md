@@ -3,6 +3,8 @@ YouTube-video-length-Chrome-extension
 
 Shows video length next to YouTube video links
 
+Built without any JS libraries to find out how much I rely on jQuery and Underscore.
+
 *Bugs*
 	Doesn't show correct time for streams
 

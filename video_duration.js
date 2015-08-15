@@ -7,23 +7,43 @@ var extension = {
 	videoLinks: [
 		{
 			service: 'youtube',
-			findSelector: 'a[href^="http://youtube.com/watch"]:not([duration-attached])',
-			setSelector: 'a[href^="http://youtube.com/watch?v={{videoID}}"]:not([duration-attached])'
+			findSelector: 'a[href^="http://www.youtube.com/v/"]',
+			setSelector: 'a[href^="http://www.youtube.com/v/{{videoID}}"]'
 		},
 		{
 			service: 'youtube',
-			findSelector: 'a[href^="http://www.youtube.com/watch"]:not([duration-attached])',
-			setSelector: 'a[href^="http://www.youtube.com/watch?v={{videoID}}"]:not([duration-attached])'
+			findSelector: 'a[href^="https://www.youtube.com/v/"]',
+			setSelector: 'a[href^="https://www.youtube.com/v/{{videoID}}"]'
 		},
 		{
 			service: 'youtube',
-			findSelector: 'a[href^="https://youtube.com/watch"]:not([duration-attached])',
-			setSelector: 'a[href^="https://youtube.com/watch?v={{videoID}}"]:not([duration-attached])'
+			findSelector: 'a[href^="http://youtube.com/v/"]',
+			setSelector: 'a[href^="http://youtube.com/v/{{videoID}}"]'
 		},
 		{
 			service: 'youtube',
-			findSelector: 'a[href^="https://www.youtube.com/watch"]:not([duration-attached])',
-			setSelector: 'a[href^="https://www.youtube.com/watch?v={{videoID}}"]:not([duration-attached])'
+			findSelector: 'a[href^="https://youtube.com/v/"]',
+			setSelector: 'a[href^="https://youtube.com/v/{{videoID}}"]'
+		},
+		{
+			service: 'youtube',
+			findSelector: 'a[href^="http://youtube.com/watch"]',
+			setSelector: 'a[href^="http://youtube.com/watch?v={{videoID}}"]'
+		},
+		{
+			service: 'youtube',
+			findSelector: 'a[href^="http://www.youtube.com/watch"]',
+			setSelector: 'a[href^="http://www.youtube.com/watch?v={{videoID}}"]'
+		},
+		{
+			service: 'youtube',
+			findSelector: 'a[href^="https://youtube.com/watch"]',
+			setSelector: 'a[href^="https://youtube.com/watch?v={{videoID}}"]'
+		},
+		{
+			service: 'youtube',
+			findSelector: 'a[href^="https://www.youtube.com/watch"]',
+			setSelector: 'a[href^="https://www.youtube.com/watch?v={{videoID}}"]'
 		},
 		{
 			service: 'youtube',
@@ -47,23 +67,23 @@ var extension = {
 		},
 		{
 			service: 'youtu.be',
-			findSelector: 'a[href^="http://youtu.be"]:not([duration-attached])',
-			setSelector: 'a[href^="http://youtu.be/{{videoID}}"]:not([duration-attached])'
+			findSelector: 'a[href^="http://youtu.be"]',
+			setSelector: 'a[href^="http://youtu.be/{{videoID}}"]'
 		},
 		{
 			service: 'youtu.be',
-			findSelector: 'a[href^="https://youtu.be"]:not([duration-attached])',
-			setSelector: 'a[href^="https://youtu.be/{{videoID}}"]:not([duration-attached])'
+			findSelector: 'a[href^="https://youtu.be"]',
+			setSelector: 'a[href^="https://youtu.be/{{videoID}}"]'
 		},
 		{
 			service: 'm.youtube',
-			findSelector: 'a[href^="http://m.youtube.com/watch"]:not([duration-attached])',
-			setSelector: 'a[href^="http://m.youtube.com/watch?v={{videoID}}"]:not([duration-attached])'
+			findSelector: 'a[href^="http://m.youtube.com/watch"]',
+			setSelector: 'a[href^="http://m.youtube.com/watch?v={{videoID}}"]'
 		},
 		{
 			service: 'm.youtube',
-			findSelector: 'a[href^="https://m.youtube.com/watch"]:not([duration-attached])',
-			setSelector: 'a[href^="https://m.youtube.com/watch?v={{videoID}}"]:not([duration-attached])'
+			findSelector: 'a[href^="https://m.youtube.com/watch"]',
+			setSelector: 'a[href^="https://m.youtube.com/watch?v={{videoID}}"]'
 		}
 	],
 
@@ -93,7 +113,7 @@ var extension = {
 		});
 
 		this.selector = this.videoLinks.map(function(vl) {
-			return vl.findSelector;
+			return vl.findSelector + ':not([duration-attached])';
 		}).reduce(function(a,b) {
 			return a + ", " + b;
 		});
@@ -134,11 +154,29 @@ var extension = {
 			return promise;
 		}
 
-		var apiUrl = "https://www.googleapis.com/youtube/v3/videos"
-			+ "?part=contentDetails,statistics"
-			+ "&fields=items/contentDetails/duration,items/statistics/likeCount"
-			+ "&id=" + videoID
-			+ "&key=" + self.apiKey;
+		//Objects to retrieve from API
+		var parts = [
+			'snippet',
+			'contentDetails',
+			'statistics',
+			'status',
+		].join(',');
+
+		//Fields to get from the API
+		var fields = [
+			'items/snippet/title,items/snippet/channelTitle',
+			'items/contentDetails/duration',
+			'items/status/uploadStatus',
+			'items/status/rejectionReason'
+		].join(',');
+
+		var apiUrl = [
+			'https://www.googleapis.com/youtube/v3/videos',
+			'?part=' + parts,
+			'&key=' + self.apiKey,
+			'&id=' + videoID,
+			'&fields=' + fields
+		].join('');
 
 		var xhr = new XMLHttpRequest();
 		xhr.open("GET", apiUrl, true);
@@ -184,7 +222,7 @@ var extension = {
 			res = res.split('#')[0];
 
 		} else { //Normal youtube.com URL
-			var regex = /v=[\w_-]+/g;
+			var regex = /v[=,\/][\w_-]+/g;
 			res = regex.exec(videoUrl)[0];
 			res = res.slice(2,res.length);
 		}
@@ -225,7 +263,8 @@ var extension = {
 		var self = this;
 
 		var selector = self.videoLinks.map(function(vl) {
-			return vl.setSelector.replace("{{videoID}}", videoID);
+			var str = vl.setSelector + ':not([duration-attached])';
+			return str.replace("{{videoID}}", videoID);
 		}).reduce(function(a,b) {
 			return a + ", " + b;
 		});

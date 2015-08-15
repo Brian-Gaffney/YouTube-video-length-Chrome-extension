@@ -3,12 +3,17 @@ YouTube-video-length-Chrome-extension
 
 Shows video length next to YouTube video links
 
+*Bugs*
+	Doesn't show correct time for streams
 
 *Todo*
 	Make better icons
 	Make a few screenshots
-	Put up the example html page somewhere
-		Github pages?
+	Create demo.html
+	Put up the example.html and demo.html on Github pages?
+
+	Show when videos are not available to view
+		❌
 
 	Improve getVideoID()
 		Strip t=X stuff
@@ -16,6 +21,7 @@ Shows video length next to YouTube video links
 	Show on embedded videos
 
 	Show more than just duration
+		Video title
 		Rating - statistics.likeCount
 		Videos that have had the sounds muted
 		Availability
@@ -25,7 +31,7 @@ Shows video length next to YouTube video links
 
 			contentDetails.licensedContent field?
 
-	Grunt/Gulb/Belch/Earwax
+	Grunt/Gulb
 		SCSS
 		Create CRX
 			Auto add commit ID to CRX somewhere so that users can see which commit the CRX was built from
@@ -46,4 +52,3 @@ Shows video length next to YouTube video links
 
 	Support non-youtube sites
 		Vimeo
-		Vine

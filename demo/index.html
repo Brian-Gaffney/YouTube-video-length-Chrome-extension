@@ -1,42 +1,9 @@
 <html>
 	<head>
 		<title>Big list of YouTube links</title>
-		<style>
-			.absolute-image {
-				height:220px;
-			}
 
-			.absolute-image img {
-				position: absolute;
-				top:550px;
-				left:480px;
-			}
+		<link rel="stylesheet" media="all" href="style.css">
 
-			.relative-image {
-				height:220px;
-			}
-
-			.relative-image img {
-				position: relative;
-				top:10px;
-			}
-
-			#links > div {
-				width:35%;
-			}
-
-			#links .left {
-				background-color:light-gray;
-				float:left;
-				margin:10px;
-			}
-
-			#links .right {
-				background-color:light-gray;
-				float:left;
-				margin:10px;
-			}
-		</style>
 		<script>
 			// Dynamically add some YouTube links after a few seconds
 			setTimeout(function() {
@@ -97,12 +64,23 @@
 			Big list of YouTube links
 		</h1>
 
+
+
 		<div id="links">
 			<div class="left">
 				<ul>
 					<li>
 						Youtube.com
 						<ul>
+							<li>
+								<a href="https://www.youtube.co.uk/watch?gl=GB&v=BgiJJpPTqg0&hl=en-GB">https://www.youtube.co.uk/watch?gl=GB&v=BgiJJpPTqg0&hl=en-GB</a>
+							</li>
+							<li>
+								<a href="https://www.youtube.com/attribution_link?a=PUzqPaRj4Zs&u=%2Fwatch%3Fv%3DPN0uwzgPe3c%26feature%3Dshare">https://www.youtube.com/attribution_link?a=PUzqPaRj4Zs&u=%2Fwatch%3Fv%3DPN0uwzgPe3c%26feature%3Dshare</a>
+							</li>
+							<li>
+								<a href="https://www.youtube.com/watch?v=AEE7DY2AYvI">https://www.youtube.com/watch?v=AEE7DY2AYvI</a>
+							</li>
 							<li>
 								<a href="https://www.youtube.com/watch?v=4MEm7-kR6pc">https://www.youtube.com/watch?v=4MEm7-kR6pc</a>
 							</li>
@@ -178,7 +156,7 @@
 						Content warning (over 18 thing)
 						<ul>
 							<li>
-								<a href="https://www.youtube.com/watch?v=ZAtzN_ScKXY">https://www.youtube.com/watch?v=ZAtzN_ScKXY</a>
+								<a href="https://www.youtube.com/watch?v=Q9gwCBtBNDM">https://www.youtube.com/watch?v=Q9gwCBtBNDM</a>
 							</li>
 						</ul>
 					</li>
@@ -188,23 +166,74 @@
 							<li>
 								<a href="http://www.youtube.com/watch?v=TLoixnECec0">http://www.youtube.com/watch?v=TLoixnECec0</a>
 							</li>
+
+							<li>
+								Blocked in AU
+								<ul>
+									<li>
+										<a href="https://www.youtube.com/watch?v=vU8dCYocuyI">https://www.youtube.com/watch?v=vU8dCYocuyI</a>
+									</li>
+									<li>
+										<a href="https://www.youtube.com/v/eXO_ApjKPaI">https://www.youtube.com/v/eXO_ApjKPaI</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li>
+						Links inside contenteditable element
+						<ul contenteditable="true">
+							<li>
+								<a href="http://www.youtube.com/watch?v=TLoixnECec0">http://www.youtube.com/watch?v=TLoixnECec0</a>
+							</li>
 							<li>
 								<a href="https://www.youtube.com/v/eXO_ApjKPaI">https://www.youtube.com/v/eXO_ApjKPaI</a>
 							</li>
 						</ul>
 					</li>
 					<li>
-						Dynamically populated links
-						<ul id="dynamic-links">
-							<!-- Dynamically populated -->
+						Not YouTube links
+						<ul>
+							<li>
+								<a href="https://google.com/watch?v=4MEm7-kR6pc">
+									https://google.com/watch?v=4MEm7-kR6pc
+								</a>
+							</li>
+							<li>
+								<a href="https://blah.com/watch?v=4MEm7-kR6pc">
+									https://blah.com/watch?v=4MEm7-kR6pc
+								</a>
+							</li>
+							<li>
+								<a href="https://asdyoutube.com/watch?v=4MEm7-kR6pc">
+									https://asdyoutube.com/watch?v=4MEm7-kR6pc
+								</a>
+							</li>
+							<li>
+								<a href="https://youtube.coma/watch?v=4MEm7-kR6pc">
+									https://youtube.coma/watch?v=4MEm7-kR6pc
+								</a>
+							</li>
+							<li>
+								<a href="https://youtube.com/blah">
+									https://youtube.com/blah
+								</a>
+							</li>
 						</ul>
 					</li>
-
+					
 				</ul>
 			</div>
 			<div class="right">
 				<div>
 					<ul>
+						<li>
+							Dynamically populated links
+							<ul id="dynamic-links">
+								<!-- Dynamically populated -->
+							</ul>
+						</li>
+
 						<li>
 							Image links
 							<ul>
@@ -222,18 +251,19 @@
 										<img src="example.png" class="relative" alt="Test video link image">
 									</a>
 								</li>
-								<li class="absolute-image">
-									<span>Absolute position</span>
-									<br>
-									<a href="https://www.youtube.com/watch?v=4MEm7-kR6pc">
-										<img src="example.png" class="absolute" alt="Test video link image">
-									</a>
-								</li>
 							</ul>
 						</li>
 					</ul>
 				</div>
 			</div>
+		</div>
+
+		<div class="absolute">
+			<span>Absolute position</span>
+			<br>
+			<a href="https://www.youtube.com/watch?v=4MEm7-kR6pc">
+				<img src="example.png" class="absolute" alt="Test video link image">
+			</a>
 		</div>
 	</body>
 </html>

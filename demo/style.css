@@ -1,0 +1,34 @@
+ul > li {
+	margin-top: 1.5em;
+}
+
+ul ul > li {
+	margin-top: 0.5em;
+}
+
+.absolute-image .absolute {
+	position: absolute;
+	top: 25px;
+	right: 25px;
+}
+
+.relative-image img {
+	position: relative;
+	top:10px;
+}
+
+#links > div {
+	width:35%;
+}
+
+#links .left {
+	background-color:light-gray;
+	float:left;
+	margin:10px;
+}
+
+#links .right {
+	background-color:light-gray;
+	float:left;
+	margin:10px;
+}

@@ -6,65 +6,62 @@
 
 		<script>
 			// Dynamically add some YouTube links after a few seconds
-			setTimeout(function() {
-				var link = "https://www.youtube.com/watch?v=4MEm7-kR6pc";
+			setTimeout(() => {
+				const link = 'https://www.youtube.com/watch?v=4MEm7-kR6pc'
 
-				var el = document.querySelector("#dynamic-links");
+				const el = document.querySelector('#dynamic-links')
 
-				var li = document.createElement('li');
-				var a = document.createElement('a');
-				var linkText = document.createTextNode(link);
-				a.appendChild(linkText);
-				a.href = link;
+				const li = document.createElement('li')
+				const a = document.createElement('a')
+				const linkText = document.createTextNode(link)
+				a.appendChild(linkText)
+				a.href = link
 
-				li.appendChild(a);
+				li.appendChild(a)
 
-				el.appendChild(li);
+				el.appendChild(li)
+			}, 2000)
 
-			}, 2000);
+			setTimeout(() => {
+				const link = 'https://www.youtube.com/watch?v=-suvkwNYSQo'
 
-			setTimeout(function() {
-				var link = "https://www.youtube.com/watch?v=-suvkwNYSQo";
+				const el = document.querySelector('#dynamic-links')
 
-				var el = document.querySelector("#dynamic-links");
+				const li = document.createElement('li')
+				const a = document.createElement('a')
+				const linkText = document.createTextNode(link)
+				a.appendChild(linkText)
+				a.href = link
 
-				var li = document.createElement('li');
-				var a = document.createElement('a');
-				var linkText = document.createTextNode(link);
-				a.appendChild(linkText);
-				a.href = link;
+				li.appendChild(a)
 
-				li.appendChild(a);
+				el.appendChild(li)
 
-				el.appendChild(li);
+			}, 4000)
 
-			}, 4000);
+			setTimeout(() => {
+				const link = 'https://www.youtube.com/watch?v=-suvkwNYSQo'
 
-			setTimeout(function() {
-				var link = "https://www.youtube.com/watch?v=-suvkwNYSQo";
+				const el = document.querySelector('#dynamic-links')
 
-				var el = document.querySelector("#dynamic-links");
+				const li = document.createElement('li')
+				const a = document.createElement('a')
+				a.href = link
 
-				var li = document.createElement('li');
-				var a = document.createElement('a');
-				a.href = link;
+				const img = document.createElement('img')
+				img.src = 'example.png'
+				img.alt = 'Test video link image'
 
-				var img = document.createElement('img');
-				img.src = 'example.png';
-				img.alt = 'Test video link image';
-
-				a.appendChild(img);
-				li.appendChild(a);
-				el.appendChild(li);
-			}, 6000);
+				a.appendChild(img)
+				li.appendChild(a)
+				el.appendChild(li)
+			}, 6000)
 		</script>
 	</head>
 	<body>
 		<h1>
 			Big list of YouTube links
 		</h1>
-
-
 
 		<div id="links">
 			<div class="left">

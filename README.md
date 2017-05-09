@@ -14,6 +14,15 @@ Chrome extensions dev docs
 Doesn't show correct time for streams
 
 ## Todo
+Improve demo page
+	Host demo somewhere
+		Github pages?
+		Google storage thing?
+
+Make a few screenshots
+
+Dynamic content
+
 Extension popup
 	Total length of all (unique) videos on page
 	Total number of videos
@@ -23,8 +32,3 @@ Extension popup
 		"Everything"
 	?Show/set user country code?
 
-Dynamic content
-
-Make a few screenshots
-Improve demo.html
-	Put demo.html on Github pages

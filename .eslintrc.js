@@ -1,39 +1,45 @@
-
-{
+module.exports = {
 	"parser": "babel-eslint",
-	"env": {
-		"browser": true,
-		"es6": true,
-		"amd": true
-	},
-	"globals": {
-		"chrome": true
-	},
+
 	"parserOptions": {
-		"ecmaVersion": "6",
 		"ecmaFeatures": {
-			"experimentalObjectRestSpread": true
-		}
+			"experimentalObjectRestSpread": true,
+		},
 	},
+
+	"globals": {
+	    "chrome": true,
+	},
+
+	"env": {
+		"es6": true,
+		"browser": true,
+		"node": true,
+	},
+
 	"extends": [
-		"eslint:recommended"
+		"eslint:recommended",
+		"plugin:import/errors",
+		"plugin:import/warnings",
 	],
+
 	"rules": {
 		"array-bracket-spacing": [2, "never"],
+		"arrow-parens": [2, "as-needed"],
 		"block-spacing": [2, "always"],
-		"brace-style": [2, "stroustrup", { "allowSingleLine": true }],
+		"brace-style": [2, "1tbs"],
 		"camelcase": 2,
-		"comma-dangle": [2, "never"],
-		"comma-spacing": [2, {"before": false, "after": true}],
+		"comma-dangle": [2, "always-multiline"],
+		"comma-spacing": [2, { "before": false, "after": true }],
 		"computed-property-spacing": [2, "never"],
 		"consistent-this": [2, "self"],
 		"curly": 2,
 		"dot-notation": 2,
 		"eol-last": 0,
 		"eqeqeq": 2,
-		"indent": [2, "tab", {"SwitchCase": 1}],
-		"jsx-quotes": [2, "prefer-double"],
-		"key-spacing": [2, {"beforeColon": false, "afterColon": true}],
+		"indent": [2, "tab", { "SwitchCase": 1 }],
+		"key-spacing": [2, { "beforeColon": false, "afterColon": true }],
+		"keyword-spacing": 2,
 		"linebreak-style": [2, "unix"],
 		"max-len": [0, 100],
 		"no-array-constructor": 2,
@@ -46,12 +52,12 @@
 		"no-lonely-if": 2,
 		"no-loop-func": 2,
 		"no-mixed-spaces-and-tabs": 2,
-		"no-redeclare": [2, {"builtinGlobals": true}],
+		"no-redeclare": [2, { "builtinGlobals": true }],
 		"no-spaced-func": 2,
 		"no-trailing-spaces": 2,
 		"no-undefined": 0,
 		"no-underscore-dangle": 0,
-		"no-unused-vars": 2,
+		"no-unused-vars": [2, { "args": "none" }],
 		"no-use-before-define": 0,
 		"no-useless-call": 2,
 		"no-var": 2,
@@ -62,13 +68,13 @@
 		"prefer-template": 2,
 		"quotes": [2, "single"],
 		"radix": 2,
-		"semi": [2, "always"],
-		"keyword-spacing": 2,
+		"semi": [2, "never"],
 		"space-before-blocks": 2,
 		"space-before-function-paren": [2, "always"],
 		"space-in-parens": [2, "never"],
 		"space-infix-ops": 2,
 		"strict": 0,
-		"yoda": 2
-	}
+
+		"import/order": ["error", {"newlines-between": "always"}],
+	},
 }

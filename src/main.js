@@ -1,39 +1,32 @@
-import App from 'app';
+// This file runs for every page loaded in chrome
+
+import App from './app'
+import {
+	isDomainBlacklisted,
+} from './utils'
 
 //Don't run on blacklisted domains
-const blackListedDomains = [
-	'youtube.com',
-	'm.youtube.com',
-	'youtu.be',
-	'm.youtu.be',
-	'youtube.co.uk',
-	'google.com'
-];
-
-const blackListedDomainsRegex = new RegExp(`^(www.)?(${blackListedDomains.join('|')})$`);
-
-if (blackListedDomainsRegex.test(window.location.hostname)) {
+if (isDomainBlacklisted(window.location.hostname)) {
 
 	// Set badge to disabled then do nothing
 	chrome.runtime.sendMessage({
-		type: 'disableBadge'
-	});
+		type: 'disableBadge',
+	})
 
 	chrome.runtime.sendMessage({
 		type: 'updateBadgeText',
-		badgeText: 'x'
-	});
-}
-else {
+		badgeText: 'x',
+	})
+} else {
 	chrome.runtime.sendMessage({
-		type: 'enableBadge'
-	});
+		type: 'enableBadge',
+	})
 
-	let app = new App();
-
+	// Get the users country code and run the app
 	chrome.runtime.sendMessage({
-		type: 'getUserCountryCode'
-	}, (countryCode) => {
-		app.initialize(countryCode);
-	});
+		type: 'getUserCountryCode',
+	}, countryCode => {
+		const app = new App()
+		app.initialize(countryCode)
+	})
 }

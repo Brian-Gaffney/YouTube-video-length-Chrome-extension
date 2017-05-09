@@ -2,27 +2,29 @@
 
 Shows video length next to YouTube video links
 
-Available in the [Chrome web store](https://chrome.google.com/webstore/detail/youtube-video-length/lfkbfhglojdeoebdkpmgmphplhanchff]).
+Available in the [Chrome web store](https://chrome.google.com/webstore/detail/youtube-video-length/lfkbfhglojdeoebdkpmgmphplhanchff).
+
+[Chome developer dashboard](https://chrome.google.com/webstore/developer/dashboard)
+
+Chrome extensions dev docs
+	"Options page" - https://developer.chrome.com/extensions/options
+	"Browser action" - https://developer.chrome.com/extensions/browserAction
 
 ## Bugs
-* Doesn't show correct time for streams
+Doesn't show correct time for streams
 
 ## Todo
-* Improve location detemination
-    * Load it once in background.js and store for a while
-	* Cancel the request if it takes too long. Not possible with fetch api
+Extension popup
+	Total length of all (unique) videos on page
+	Total number of videos
+	Let user select display mode
+		Screenshots of each tooltip type
+		"Minimal"
+		"Everything"
+	?Show/set user country code?
 
-* Show more than just duration
-    * Rating fields
-	    * statistics.likeCount
-		* statistics.dislikeCount
+Dynamic content
 
-* Make a few screenshots
-* Improve demo.html
-    * Put demo.html on Github pages
-
-* Extension popup
-    * Total length of all (unique) videos on page
-	* Total number of videos
-    * Let user select display mode
-    * Show/set user country code
+Make a few screenshots
+Improve demo.html
+	Put demo.html on Github pages

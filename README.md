@@ -22,9 +22,6 @@ Improve demo page
 Show blocked video status in tooltip
 	Show all blocked regions
 
-Load all videos in one API call
-	?id={id1},{id2},{id3}
-
 Dynamic content
 
 Extension popup

@@ -1,5 +1,3 @@
-import Promise from 'bluebird'
-
 import {
 	youtubeApiKey,
 } from '../config'
@@ -11,6 +9,7 @@ const apiRequestParts = [
 ].join(',')
 
 const apiRequestFields = [
+	'items/id',
 	'items/snippet/title',
 	'items/snippet/channelTitle',
 	'items/snippet/thumbnails',
@@ -28,26 +27,14 @@ const apiUrl = [
 ].join('')
 
 function loadVideoData (videoIDs) {
-	const fetchVideoDataPromises = videoIDs.map(videoID => {
-		return fetch(`${apiUrl}&id=${videoID}`)
-			.then(response => response.json())
-			.then(videoData => {
-				return {
-					videoID,
-					data: videoData && videoData.items && videoData.items[0] ? videoData.items[0] : null,
-				}
-			})
-	})
-
-	return Promise.all(fetchVideoDataPromises)
+	return fetch(`${apiUrl}&id=${videoIDs.join(',')}`)
+		.then(response => response.json())
 		.then(videoData => {
-			return videoData.reduce((memo, data) => {
-				memo[data.videoID] = data.data
-				return memo
-			}, {})
-		})
-		.catch(error => {
-			console.log('Failed to get data from API', error)
+			return videoIDs
+				.reduce((memo, videoID) => {
+					memo[videoID] = videoData.items.find(v => v.id === videoID)
+					return memo
+				}, {})
 		})
 }
 

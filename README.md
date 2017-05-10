@@ -19,7 +19,11 @@ Improve demo page
 		Github pages?
 		Google storage thing?
 
-Make a few screenshots
+Show blocked video status in tooltip
+	Show all blocked regions
+
+Load all videos in one API call
+	?id={id1},{id2},{id3}
 
 Dynamic content
 

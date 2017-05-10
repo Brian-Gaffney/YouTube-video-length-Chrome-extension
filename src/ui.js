@@ -28,30 +28,49 @@ function createTooltipContent (videoData, prettyDuration) {
 		},
 	} = videoData
 
+	/*
+	 * Tooltip layout:
+	  +----------------------------------------------+---------------------+
+	  |     [Length] Video title                     |                     |
+	  |     Video channel                            |                     |
+	  |                                              |    Thumbnail        |
+	  |     Number of views                          |                     |
+	  |     Ups / Downs                              |                     |
+	  +----------------------------------------------+---------------------+
+	 *
+	 */
+
+	// Video length, title and channel
 	let content = `
-		<div class="${classPrefix}content-left">
+		<h4 class="${classPrefix}video-title">
+			[${prettyDuration}] ${title}
+		</h4>
+		<span class="${classPrefix}channel-name">
+			${channelTitle}
+		</span>
+		<br />
+	`
 
-			<h4 class="${classPrefix}video-title">
-				${title}
-			</h4>
-			<span>
-				<span>
-					${prettyDuration} - <span class="${classPrefix}channel-name">${channelTitle}</span>
-				</span>
-			</span>
-
-			<br>
+	// If available; views, likes and dislikes
+	if (viewCount && likeCount && dislikeCount) {
+		content += `
 			${parseInt(viewCount, 10).toLocaleString()} views
-			<br>
+			<br />
 			<span>
 				<span class="${classPrefix}up-character">▲</span> ${parseInt(likeCount, 10).toLocaleString()} / ${parseInt(dislikeCount, 10).toLocaleString()} <span class="${classPrefix}down-character">▼</span>
 			</span>
-		</div>
-	`
+		`
+	} else {
+		// No stats
+		content += `
+			<span class="${classPrefix}stats-unavailable">
+				Stats disabled by uploader
+			</span>
+		`
+	}
 
 	let thumbnail = ''
 	if (thumbnails && thumbnails.default) {
-
 		const {
 			default: {
 				url,
@@ -73,7 +92,10 @@ function createTooltipContent (videoData, prettyDuration) {
 
 	return `
 		<div class="${classPrefix}content-row">
-			${content}
+			<div class="${classPrefix}content-left">
+				${content}
+			</div>
+
 			${thumbnail}
 		</div>
 	`

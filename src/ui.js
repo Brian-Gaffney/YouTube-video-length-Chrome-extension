@@ -1,4 +1,5 @@
 import Tooltip from 'tether-tooltip'
+import moment from 'moment'
 
 import {
 	contentWarning,
@@ -17,14 +18,15 @@ function createTooltipContent (videoData, prettyDuration) {
 
 	const {
 		snippet: {
-			title,
 			channelTitle,
+			publishedAt,
 			thumbnails,
+			title,
 		},
 		statistics: {
-			viewCount,
-			likeCount,
 			dislikeCount,
+			likeCount,
+			viewCount,
 		},
 	} = videoData
 
@@ -51,10 +53,17 @@ function createTooltipContent (videoData, prettyDuration) {
 		<br />
 	`
 
-	// If available; views, likes and dislikes
+	const publishedDate = moment(publishedAt)
+	const timeSincePublished = publishedDate.isValid() ? `Published ${publishedDate.fromNow()} ` : ''
+
+	// If available; views, likes and dislikes and published date
 	if (viewCount && likeCount && dislikeCount) {
+		const nicelyFormattedViewCount = parseInt(viewCount, 10).toLocaleString()
+		const viewCountSuffix = `view${viewCount === '1' ? '' : 's'}` // "view" or "views"
+
 		content += `
-			${parseInt(viewCount, 10).toLocaleString()} views
+			${nicelyFormattedViewCount} ${viewCountSuffix}
+			${timeSincePublished ? ` - ${timeSincePublished}` : ''}
 			<br />
 			<span>
 				<span class="${classPrefix}up-character">▲</span> ${parseInt(likeCount, 10).toLocaleString()} / ${parseInt(dislikeCount, 10).toLocaleString()} <span class="${classPrefix}down-character">▼</span>
@@ -63,6 +72,7 @@ function createTooltipContent (videoData, prettyDuration) {
 	} else {
 		// No stats
 		content += `
+			${timeSincePublished}
 			<span class="${classPrefix}stats-unavailable">
 				Stats disabled by uploader
 			</span>

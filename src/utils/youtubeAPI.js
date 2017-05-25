@@ -13,6 +13,7 @@ const apiRequestFields = [
 	'items/snippet/title',
 	'items/snippet/channelTitle',
 	'items/snippet/thumbnails',
+	'items/snippet/publishedAt',
 	'items/contentDetails/duration',
 	'items/contentDetails/regionRestriction',
 	'items/contentDetails/contentRating',

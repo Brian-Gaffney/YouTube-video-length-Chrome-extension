@@ -7,6 +7,9 @@ import {
 	prettyPrintSeconds,
 	regionAllowed,
 } from './utils'
+import {
+	rickRollVideoId,
+} from './config'
 import getVideoOffset from './utils/getVideoOffset'
 
 const classPrefix = 'youtube-chrome-tooltip-extension-'
@@ -119,7 +122,7 @@ function attachTooltipToLink (videoID, videoLinks, videoData, countryCode) {
 
 		let prettyDuration
 
-		let suffix = ''
+		const suffixStrings = []
 
 		if (videoData) {
 			let duration = ISO8601DurationToSeconds(videoData.contentDetails.duration)
@@ -129,18 +132,22 @@ function attachTooltipToLink (videoID, videoLinks, videoData, countryCode) {
 			prettyDuration = prettyPrintSeconds(duration)
 
 			if (prettyDuration) {
-				suffix = `${suffix}[${prettyDuration}]`
+				suffixStrings.push(`[${prettyDuration}]`)
 			}
 
 			if (contentWarning(videoData)) {
-				suffix = `${suffix}[18+]`
+				suffixStrings.push('[18+]')
 			}
 
 			if (!regionAllowed(countryCode, videoData.contentDetails)) {
-				suffix = `${suffix} [❌ country blocked]`
+				suffixStrings.push(' [❌ country blocked]')
+			}
+
+			if (videoData.id === rickRollVideoId) {
+				suffixStrings.push('[RICK ROLL]')
 			}
 		} else {
-			suffix = '[❌]'
+			suffixStrings.push('[❌]')
 		}
 
 		// Do things a little differently if the link contains an image
@@ -151,7 +158,7 @@ function attachTooltipToLink (videoID, videoLinks, videoData, countryCode) {
 			let originalLinkText = video.link.innerHTML
 
 			let root = video.link.createShadowRoot()
-			root.innerHTML = `${originalLinkText} <strong>${suffix}</strong>`
+			root.innerHTML = `${originalLinkText} <strong>${suffixStrings.join('')}</strong>`
 		}
 
 		// Add the tooltip

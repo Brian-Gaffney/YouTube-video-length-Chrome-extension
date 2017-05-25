@@ -18,8 +18,11 @@ const youtubeDomains = [
 	'youtube.co.uk',
 ]
 
+const rickRollVideoId = 'dQw4w9WgXcQ'
+
 export {
 	blackListedDomains,
+	rickRollVideoId,
 	youtubeApiKey,
 	youtubeDomains,
 }

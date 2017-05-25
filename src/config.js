@@ -7,6 +7,7 @@ const blackListedDomains = [
 	'm.youtu.be',
 	'youtube.co.uk',
 	'google.com',
+	'keep.google.com',
 ]
 
 const youtubeDomains = [

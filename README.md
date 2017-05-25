@@ -10,27 +10,25 @@ Chrome extensions dev docs
 	"Options page" - https://developer.chrome.com/extensions/options
 	"Browser action" - https://developer.chrome.com/extensions/browserAction
 
-## Bugs
-Doesn't show correct time for streams
-
 ## Todo
+
 Improve demo page
 	Host demo somewhere
 		Github pages?
 		Google storage thing?
-
-Show blocked video status in tooltip
-	Show all blocked regions
 
 Dynamic content
 
 Extension popup
 	Total length of all (unique) videos on page
 	Total number of videos
-	Let user select display mode
-		Screenshots of each tooltip type
-		"Minimal"
-		"Everything"
+	Let user select what to show in tooltip
+		Configure padding. Small, big, none
+		Thumbnail - On/off
+		Video length - On/off
+
+		Live preview as options change
 	?Show/set user country code?
 
-Dynamic content
+Show something useful about playlists
+	https://www.youtube.com/playlist?list=PLNz4Un92pGNxQ9vNgmnCx7dwchPJGJ3IQ

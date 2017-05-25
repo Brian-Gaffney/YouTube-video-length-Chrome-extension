@@ -22,6 +22,7 @@ function createTooltipContent (videoData, prettyDuration) {
 	const {
 		snippet: {
 			channelTitle,
+			liveBroadcastContent,
 			publishedAt,
 			thumbnails,
 			title,
@@ -48,7 +49,9 @@ function createTooltipContent (videoData, prettyDuration) {
 	// Video length, title and channel
 	let content = `
 		<h4 class="${classPrefix}video-title">
-			[${prettyDuration}] ${title}
+			${liveBroadcastContent === 'live' ? '[Live now] ' : ''}
+			${prettyDuration ? `[${prettyDuration}] ` : ''}
+			${title}
 		</h4>
 		<span class="${classPrefix}channel-name">
 			${channelTitle}
@@ -125,29 +128,42 @@ function attachTooltipToLink (videoID, videoLinks, videoData, countryCode) {
 		const suffixStrings = []
 
 		if (videoData) {
-			let duration = ISO8601DurationToSeconds(videoData.contentDetails.duration)
 
-			duration -= getVideoOffset(video.link.href)
+			const {
+				id: videoId,
+				snippet: {
+					liveBroadcastContent,
+				},
+				contentDetails: {
+					duration,
+				},
+				contentDetails,
+			} = videoData
 
-			prettyDuration = prettyPrintSeconds(duration)
+			prettyDuration = prettyPrintSeconds(ISO8601DurationToSeconds(duration) - getVideoOffset(video.link.href))
 
 			if (prettyDuration) {
-				suffixStrings.push(`[${prettyDuration}]`)
+				suffixStrings.push(prettyDuration)
 			}
 
 			if (contentWarning(videoData)) {
-				suffixStrings.push('[18+]')
+				suffixStrings.push('18+')
 			}
 
-			if (!regionAllowed(countryCode, videoData.contentDetails)) {
-				suffixStrings.push(' [❌ country blocked]')
+			if (!regionAllowed(countryCode, contentDetails)) {
+				suffixStrings.push('❌ country blocked')
 			}
 
-			if (videoData.id === rickRollVideoId) {
-				suffixStrings.push('[RICK ROLL]')
+			if (videoId === rickRollVideoId) {
+				suffixStrings.push('⚠RICK ROLL⚠')
 			}
+
+			if (liveBroadcastContent === 'live') {
+				suffixStrings.push('live streaming now')
+			}
+
 		} else {
-			suffixStrings.push('[❌]')
+			suffixStrings.push('❌')
 		}
 
 		// Do things a little differently if the link contains an image
@@ -158,7 +174,7 @@ function attachTooltipToLink (videoID, videoLinks, videoData, countryCode) {
 			let originalLinkText = video.link.innerHTML
 
 			let root = video.link.createShadowRoot()
-			root.innerHTML = `${originalLinkText} <strong>${suffixStrings.join('')}</strong>`
+			root.innerHTML = `${originalLinkText} <strong>[${suffixStrings.join(' | ')}]</strong>`
 		}
 
 		// Add the tooltip

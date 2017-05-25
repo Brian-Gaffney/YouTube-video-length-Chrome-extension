@@ -14,6 +14,7 @@ const apiRequestFields = [
 	'items/snippet/channelTitle',
 	'items/snippet/thumbnails',
 	'items/snippet/publishedAt',
+	'items/snippet/liveBroadcastContent',
 	'items/contentDetails/duration',
 	'items/contentDetails/regionRestriction',
 	'items/contentDetails/contentRating',

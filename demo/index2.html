@@ -21,6 +21,89 @@
 				padding: 5em 0em 2em;
 			}
 		</style>
+
+		<script>
+			// Dynamically add some YouTube links after a few seconds
+			setTimeout(() => {
+				const link = 'https://www.youtube.com/watch?v=4MEm7-kR6pc'
+
+				const el = document.querySelector('#dynamic-links')
+
+				const li = document.createElement('li')
+				const a = document.createElement('a')
+				const linkText = document.createTextNode(link)
+				a.appendChild(linkText)
+				a.href = link
+
+				li.appendChild(a)
+
+				el.appendChild(li)
+			}, 2000)
+
+			setTimeout(() => {
+				const link = 'https://www.youtube.com/watch?v=4MEm7-kR6pc'
+
+				const el = document.querySelector('#dynamic-links')
+
+				const li = document.createElement('li')
+				const a = document.createElement('a')
+				const linkText = document.createTextNode(link)
+				a.appendChild(linkText)
+				a.href = link
+
+				li.appendChild(a)
+
+				el.appendChild(li)
+			}, 2000)
+
+			setTimeout(() => {
+				const link = 'https://www.youtube.com/watch?v=4MEm7-kR6pc'
+
+				const el = document.querySelector('#dynamic-links')
+
+				const li = document.createElement('li')
+				const a = document.createElement('a')
+				const linkText = document.createTextNode(link)
+				a.appendChild(linkText)
+				a.href = link
+
+				li.appendChild(a)
+
+				el.appendChild(li)
+			}, 2005)
+
+			setTimeout(() => {
+				const link = 'https://www.youtube.com/watch?v=4MEm7-kR6pc'
+
+				const el = document.querySelector('#dynamic-links')
+
+				const li = document.createElement('li')
+				const a = document.createElement('a')
+				const linkText = document.createTextNode(link)
+				a.appendChild(linkText)
+				a.href = link
+
+				li.appendChild(a)
+
+				el.appendChild(li)
+			}, 2010)
+
+			setTimeout(() => {
+				const link = 'https://www.youtube.com/watch?v=4MEm7-kR6pc'
+
+				const el = document.querySelector('#dynamic-links')
+
+				const li = document.createElement('li')
+				const a = document.createElement('a')
+				const linkText = document.createTextNode(link)
+				a.appendChild(linkText)
+				a.href = link
+
+				li.appendChild(a)
+
+				el.appendChild(li)
+			}, 2200)
+		</script>
 	</head>
 	<body>
 		<div class="ui text container">
@@ -29,8 +112,7 @@
 			</h1>
 		</div>
 
-
-		<div class="ui text container">
+	<!-- 	<div class="ui text container">
 			<h2 class="ui dividing header">
 				Basic examples
 			</h2>
@@ -106,7 +188,37 @@
 						</a>
 						<div class="description">Uploader has hidden the stats for this video</div>
 					</div>
-				</div>		
+				</div>
+				<div class="item">
+					<div class="content">
+						<a
+							class="header"
+							href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+						>
+							Rick Roll
+						</a>
+						<div class="description">Never gonna get roll'd again</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="content">
+						<a
+							class="header"
+							href="https://www.youtube.com/watch?v=UgJtWREOXHA"
+						>
+							A live stream
+						</a>
+					</div>
+				</div>
+			</div>
+		</div> -->
+
+		<div class="ui text container">
+			<h2 class="ui dividing header">
+				Dynamically added links
+			</h2>
+			<div class="ui relaxed divided list" id="dynamic-links">
+				<!-- Dynamically added -->
 			</div>
 		</div>
 	</body>

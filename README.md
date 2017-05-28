@@ -17,7 +17,8 @@ Improve demo page
 		Github pages?
 		Google storage thing?
 
-Dynamic content
+Show blocked video status in tooltip
+	Show all blocked regions
 
 Extension popup
 	Total length of all (unique) videos on page

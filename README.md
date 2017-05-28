@@ -22,8 +22,6 @@ Improve demo page
 Show blocked video status in tooltip
 	Show all blocked regions
 
-Dynamic content
-
 Extension popup
 	Total length of all (unique) videos on page
 	Total number of videos

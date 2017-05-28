@@ -121,14 +121,12 @@ function attachTooltipToLink (videoID, videoLinks, videoData, countryCode) {
 	const matchingVideos = videoLinks[videoID]
 
 	matchingVideos.forEach(video => {
-		let target = video.link
+		const target = video.link
+		const suffixStrings = []
 
 		let prettyDuration
 
-		const suffixStrings = []
-
 		if (videoData) {
-
 			const {
 				id: videoId,
 				snippet: {
@@ -161,21 +159,11 @@ function attachTooltipToLink (videoID, videoLinks, videoData, countryCode) {
 			if (liveBroadcastContent === 'live') {
 				suffixStrings.push('live streaming now')
 			}
-
 		} else {
 			suffixStrings.push('❌')
 		}
 
-		// Do things a little differently if the link contains an image
-		if (video.link.getElementsByTagName('img').length > 0) {
-			target = video.link.getElementsByTagName('img')[0]
-		} else {
-			// For text links, update the link to show some more data
-			let originalLinkText = video.link.innerHTML
-
-			let root = video.link.createShadowRoot()
-			root.innerHTML = `${originalLinkText} <strong>[${suffixStrings.join(' | ')}]</strong>`
-		}
+		attachLinkSuffix(target, suffixStrings)
 
 		// Add the tooltip
 		new Tooltip({
@@ -191,8 +179,27 @@ function attachTooltipToLink (videoID, videoLinks, videoData, countryCode) {
 		chrome.runtime.sendMessage({
 			type: 'attachedLink',
 		})
-
 	})
+}
+
+function attachLinkSuffix (target, suffixStrings) {
+	// If the target already has a shadow DOM then don't do anything
+	// This happens if we've already attached the suffix or the page itself uses shadow DOM
+	if (target.shadowRoot) {
+		return
+	}
+
+	// Do things a little differently if the link contains an image
+	if (target.getElementsByTagName('img').length > 0) {
+		target = target.getElementsByTagName('img')[0]
+	} else {
+		// For text links, update the link to show some more data
+		const originalLinkText = target.innerHTML
+
+		const shadowRoot = target.createShadowRoot()
+
+		shadowRoot.innerHTML = `${originalLinkText} <strong>[${suffixStrings.join(' | ')}]</strong>`
+	}
 }
 
 function showVideoData (videoLinks, videoData, countryCode) {

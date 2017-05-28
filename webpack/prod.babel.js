@@ -1,7 +1,6 @@
 import webpack from 'webpack'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
-import ZipPlugin from 'zip-webpack-plugin'
 
 import rules from './rules'
 
@@ -25,10 +24,6 @@ export default {
 	},
 
 	plugins: [
-		new ZipPlugin({
-			filename: 'build.zip',
-		}),
-
 		new ExtractTextPlugin('styles.css'),
 
 		new webpack.optimize.OccurrenceOrderPlugin(),

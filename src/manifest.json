@@ -3,7 +3,7 @@
 
 	"name": "YouTube video length",
 	"description": "Shows video length next to YouTube video links",
-	"version": "2.0",
+	"version": "2.1",
 
 	"permissions": ["https://api.youtube.com/"],
 

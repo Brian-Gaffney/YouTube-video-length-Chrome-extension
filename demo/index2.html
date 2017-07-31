@@ -87,6 +87,22 @@
 
 				el.appendChild(li)
 			}, 2200)
+
+			setTimeout(() => {
+				const link = 'https://www.youtube.com/watch?v=i-WYT2UotIc'
+
+				const el = document.querySelector('#dynamic-links')
+
+				const li = document.createElement('li')
+				const a = document.createElement('a')
+				const linkText = document.createTextNode(link)
+				a.appendChild(linkText)
+				a.href = link
+
+				li.appendChild(a)
+
+				el.appendChild(li)
+			}, 2500)
 		</script>
 	</head>
 	<body>

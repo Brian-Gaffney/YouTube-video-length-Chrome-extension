@@ -1,4 +1,5 @@
 import throttle from 'lodash/throttle'
+import difference from 'lodash/difference'
 
 import getAllYouTubeLinksOnPage from './utils/getAllYouTubeLinksOnPage'
 import {
@@ -12,7 +13,8 @@ class App {
 
 	constructor () {
 		this.videoLinks = {}
-		this.videoData = {}
+		this.videoData = {} // Video data for successfully loaded video IDs
+		this.videoIDs = [] // Video IDs found on the page - Working or not
 		this.fetching = true
 	}
 
@@ -26,14 +28,14 @@ class App {
 
 		const youtubeLinks = getAllYouTubeLinksOnPage()
 
-		const videoIDs = this.getUniqueVideoIDs(youtubeLinks)
+		this.videoIDs = this.getUniqueVideoIDs(youtubeLinks)
 
-		this.videoLinks = this.reduceVideoLinks(videoIDs, youtubeLinks)
+		this.videoLinks = this.reduceVideoLinks(this.videoIDs, youtubeLinks)
 
-		if (videoIDs.length > 1) {
+		if (this.videoIDs.length > 0) {
 			this.fetching = true
 
-			loadVideoData(videoIDs)
+			loadVideoData(this.videoIDs)
 				.then(videoData => {
 					this.fetching = false
 					this.videoData = videoData
@@ -49,10 +51,12 @@ class App {
 
 		const videoIDs = this.getUniqueVideoIDs(youtubeLinks)
 
-		// Filter out videos we've already loaded
-		const newVideoIDs = videoIDs.filter(id => !this.videoData[id])
+		// Filter out videos we've already seen on the page before
+		const newVideoIDs = difference(videoIDs, this.videoIDs)
 
-		const videoLinks = this.reduceVideoLinks(videoIDs, youtubeLinks)
+		this.videoIDs = videoIDs;
+
+		const videoLinks = this.reduceVideoLinks(this.videoIDs, youtubeLinks)
 
 		// Merge the new videoLinks in
 		this.videoLinks = {
@@ -60,7 +64,7 @@ class App {
 			...videoLinks,
 		}
 
-		if (newVideoIDs.length > 1 || this.fetching) {
+		if (newVideoIDs.length > 0) {
 			loadVideoData(newVideoIDs)
 				.then(videoData => {
 					this.videoData = {

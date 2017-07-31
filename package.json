@@ -1,6 +1,6 @@
 {
   "name": "youtube_video_length",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "YouTube video length Chrome extension",
   "scripts": {
     "dev": "rm -rf build && NODE_ENV=development webpack --config webpack/dev.babel.js --progress --colors --watch",
